@@ -12,26 +12,25 @@ Hive Axyl Android SDK는 OkHttp와 protobuf-javalite 기반의 Kotlin Gradle 라
 
 ## 설치
 
-::: tip 배포 채널 준비 중
-Maven repository 배포를 준비 중입니다. 그 전까지는 SDK를 local Gradle module로 포함하세요.
-:::
-
-SDK module을 프로젝트에서 접근 가능한 위치로 복사하거나 clone한 뒤 `settings.gradle.kts`에 등록합니다.
+`settings.gradle.kts`에 Maven Central을 추가합니다.
 
 ```kotlin
-include(":hiveaxyl-sdk")
-project(":hiveaxyl-sdk").projectDir = file("../path/to/hive-axyl-android-sdk/sdk")
-```
-
-그리고 app module(`app/build.gradle.kts`)에서 dependency를 추가합니다.
-
-```kotlin
-dependencies {
-    implementation(project(":hiveaxyl-sdk"))
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
 }
 ```
 
-Bundled sample app도 이 local-module layout을 그대로 사용합니다.
+그리고 app module(`app/build.gradle.kts`)에 SDK dependency를 추가합니다.
+
+```kotlin
+dependencies {
+    implementation("io.github.conx-dev:hive-axyl-android-sdk:0.1.0")
+}
+```
 
 ## 초기화
 

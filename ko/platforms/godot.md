@@ -21,7 +21,11 @@ Hive Axyl Godot SDK는 Godot 4.x 데스크톱 게임을 위한 runtime GDScript 
 
 ## 설치
 
-`addons/hive_axyl` directory를 Godot project의 `addons/hive_axyl`로 복사합니다. Symlink도 동작합니다.
+SDK를 `addons/hive_axyl` 경로의 Git submodule로 추가합니다.
+
+```bash
+git submodule add https://github.com/conx-dev/hive-axyl-godot-sdk.git addons/hive_axyl
+```
 
 ::: tip Runtime addon이며 editor plugin이 아닙니다
 Project Settings -> Plugins에서 활성화할 것은 없습니다. 코드 또는 scene에서 `HiveAxyl` node를 만들고 scene tree에 추가합니다.

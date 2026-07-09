@@ -12,26 +12,22 @@ Before you start, create a project and issue a client API key in the console. Se
 
 ## Installation
 
-::: tip Distribution channels are being prepared
-A public Swift package repository is being prepared. Until then, add the SDK as a local package.
-:::
-
-Copy (or clone) the SDK package folder, then in Xcode choose **File → Add Package Dependencies… → Add Local…** and select the package directory. Add the `HiveAxylSDK` library product to your app target.
-
-If you manage the project declaratively (Package.swift or XcodeGen), reference the package by path — the bundled sample app does this:
-
-```yaml
-# project.yml (XcodeGen)
-packages:
-  HiveAxylSDK:
-    path: ../path/to/hive-axyl-ios-sdk
-```
+Add the GitHub Swift package and link the `HiveAxylSDK` product to your target.
 
 ```swift
-// Package.swift
 dependencies: [
-    .package(path: "../path/to/hive-axyl-ios-sdk"),
-],
+    .package(
+        url: "https://github.com/conx-dev/hive-axyl-ios-sdk.git",
+        from: "0.1.0"
+    )
+]
+
+.target(
+    name: "YourApp",
+    dependencies: [
+        .product(name: "HiveAxylSDK", package: "hive-axyl-ios-sdk")
+    ]
+)
 ```
 
 ## Initialize
