@@ -12,26 +12,22 @@ Hive Axyl iOS SDK(`HiveAxylSDK`)는 `URLSession` 기반 Swift package이며 asyn
 
 ## 설치
 
-::: tip 배포 채널 준비 중
-Public Swift package repository를 준비 중입니다. 그 전까지는 SDK를 local package로 추가하세요.
-:::
-
-SDK package folder를 복사하거나 clone한 뒤 Xcode에서 **File -> Add Package Dependencies... -> Add Local...**을 선택하고 package directory를 선택합니다. `HiveAxylSDK` library product를 app target에 추가하세요.
-
-Project를 선언적으로 관리한다면(Package.swift 또는 XcodeGen) path로 package를 참조합니다. Bundled sample app도 이 방식을 사용합니다.
-
-```yaml
-# project.yml (XcodeGen)
-packages:
-  HiveAxylSDK:
-    path: ../path/to/hive-axyl-ios-sdk
-```
+GitHub Swift package를 추가하고 `HiveAxylSDK` product를 app target에 연결합니다.
 
 ```swift
-// Package.swift
 dependencies: [
-    .package(path: "../path/to/hive-axyl-ios-sdk"),
-],
+    .package(
+        url: "https://github.com/conx-dev/hive-axyl-ios-sdk.git",
+        from: "0.1.0"
+    )
+]
+
+.target(
+    name: "YourApp",
+    dependencies: [
+        .product(name: "HiveAxylSDK", package: "hive-axyl-ios-sdk")
+    ]
+)
 ```
 
 ## 초기화

@@ -21,7 +21,11 @@ Before you start, create a project and issue a client API key in the console. Se
 
 ## Installation
 
-Copy the `addons/hive_axyl` directory into your Godot project as `addons/hive_axyl` (a symlink also works).
+Add the SDK as a Git submodule under `addons/hive_axyl`:
+
+```bash
+git submodule add https://github.com/conx-dev/hive-axyl-godot-sdk.git addons/hive_axyl
+```
 
 ::: tip Runtime addon, not an editor plugin
 There is nothing to enable under Project Settings → Plugins. You create a `HiveAxyl` node in code (or in a scene) and add it to the scene tree.

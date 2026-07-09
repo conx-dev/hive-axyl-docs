@@ -12,26 +12,25 @@ Before you start, create a project and issue a client API key in the console. Se
 
 ## Installation
 
-::: tip Distribution channels are being prepared
-Publication to a Maven repository is being prepared. Until then, include the SDK as a local Gradle module.
-:::
-
-Copy (or clone) the SDK module somewhere accessible to your project, then register it in `settings.gradle.kts`:
+Add Maven Central to `settings.gradle.kts`:
 
 ```kotlin
-include(":hiveaxyl-sdk")
-project(":hiveaxyl-sdk").projectDir = file("../path/to/hive-axyl-android-sdk/sdk")
-```
-
-And depend on it from your app module (`app/build.gradle.kts`):
-
-```kotlin
-dependencies {
-    implementation(project(":hiveaxyl-sdk"))
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
 }
 ```
 
-The bundled sample app uses exactly this local-module layout.
+Then add the SDK dependency to your app module (`app/build.gradle.kts`):
+
+```kotlin
+dependencies {
+    implementation("io.github.conx-dev:hive-axyl-android-sdk:0.1.0")
+}
+```
 
 ## Initialize
 

@@ -12,21 +12,17 @@ Before you start, create a project and issue a client API key in the console. Se
 
 ## Installation
 
-::: tip Distribution channels are being prepared
-Publication to a UPM registry is being prepared. Until then, reference the SDK as a local UPM package.
-:::
-
-Copy (or clone) the SDK package folder somewhere accessible to your project, then add a `file:` reference to `Packages/manifest.json`:
+Add the SDK Git dependency to `Packages/manifest.json`:
 
 ```json
 {
   "dependencies": {
-    "com.hiveaxyl.sdk": "file:../../path/to/hive-axyl-unity-sdk"
+    "com.hiveaxyl.sdk": "https://github.com/conx-dev/hive-axyl-unity-sdk.git#0.1.0"
   }
 }
 ```
 
-The path is relative to your project's `Packages/` folder. Unity imports the package and its bundled plugins automatically. The bundled sample app uses exactly this local-reference layout.
+Unity imports the package and its bundled plugins automatically.
 
 ## Initialize
 
