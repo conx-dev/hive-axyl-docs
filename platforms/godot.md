@@ -1,19 +1,21 @@
 # Godot SDK
 
-The Hive Axyl Godot SDK is a runtime GDScript addon (`addons/hive_axyl`) for Godot 4.x desktop games. It talks to the platform with plain `HTTPRequest` calls using the Connect JSON protocol — no native extensions or protobuf tooling required.
+The Hive Axyl Godot SDK is a runtime GDScript addon (`addons/hive_axyl`) for Godot 4.x Desktop, Android, iOS, and Web games. It talks to the platform with plain `HTTPRequest` calls using the Connect JSON protocol — no native extensions or protobuf tooling required.
 
 Before you start, create a project and issue a client API key in the console. See [Projects & API Keys](/console/projects-api-keys).
 
 ## Requirements
 
 - Godot 4.x (the bundled sample project targets Godot 4.6+)
-- Desktop targets (Windows, macOS, Linux)
+- Desktop, Android, iOS, or Web export targets
+- Android exports with the `INTERNET` permission enabled
+- Web hosting over HTTPS with the deployed origin allowed by the Hive Axyl endpoint CORS policy
 
 ## Supported scope
 
 | Domain | Included |
 | --- | --- |
-| Auth (providers, guest, Google desktop, Facebook desktop, session restore, logout) | Yes |
+| Auth (providers, guest, direct Google/Facebook tokens, Desktop OAuth, session restore, logout) | Yes |
 | Notice (active notices) | Yes |
 | Mailbox (list, check new, claim) | Yes |
 | Payments | No — planned via Steam payment integration |
@@ -84,12 +86,21 @@ func _ready() -> void:
 
 ## Login
 
-Fetch the provider list first — the server decides which providers are exposed per project and country (the Godot SDK reports the `DESKTOP` platform), and the client should only display what the response contains.
+Fetch the provider list first. The SDK detects the export target and reports `WEB`, `ANDROID`, `IOS`, or `DESKTOP`. The server decides which providers are exposed per project, country, and platform, and the client should only display what the response contains.
 
 ```gdscript
 var result = await hive.auth.get_login_providers()
 # result: { "providers": ["google", "guest"], "country": "US" }
 ```
+
+| Export target | Guest | Google | Facebook |
+| --- | --- | --- | --- |
+| Desktop | Direct API | Direct ID token or built-in Desktop OAuth | Direct access token or built-in Desktop OAuth |
+| Android | Direct API | Platform bridge ID token | Platform bridge access token |
+| iOS | Direct API | Platform bridge ID token | Platform bridge access token |
+| Web | Direct API | JavaScript bridge ID token | JavaScript bridge access token |
+
+The Godot SDK does not bundle Google/Facebook native plugins or JavaScript provider SDKs. On Android, iOS, and Web, your game bridge obtains the provider token and calls the direct Hive Axyl login API.
 
 ### Guest login
 
@@ -99,7 +110,15 @@ if not player.is_empty():
     print("guest login: ", player.get("player_id", ""))
 ```
 
-### Google (desktop OAuth)
+### Google
+
+Pass an ID token obtained through a platform provider bridge on any export target:
+
+```gdscript
+var player = await hive.auth.login_with_google(id_token)
+```
+
+#### Desktop OAuth helper
 
 `login_with_google_desktop()` runs the full desktop OAuth flow for you:
 
@@ -116,21 +135,26 @@ var player = await hive.auth.login_with_google_desktop()
 
 Create an OAuth 2.0 **Desktop app** client in the Google Cloud Console and register the client ID for your project in the Hive Axyl console. See [Login Providers](/console/login-providers).
 
-If you obtain a Google ID token through some other integration, pass it directly:
+### Facebook
+
+Pass an access token obtained through a platform provider bridge on any export target:
 
 ```gdscript
-var player = await hive.auth.login_with_google(id_token)
+var player = await hive.auth.login_with_facebook(access_token)
 ```
 
-### Facebook (desktop OAuth)
+#### Desktop OAuth helper
 
 `login_with_facebook_desktop()` opens the system browser, receives the Hive Axyl callback through `127.0.0.1`, and completes login with a short-lived one-time code.
 
 Configure the Facebook App ID and App Secret in the Hive Axyl console. Register the Facebook Redirect URI shown on the credential card as an exact Valid OAuth Redirect URI in Meta for Developers. The game never receives the App Secret, and this flow does not require a Facebook JavaScript SDK allowed domain.
 
+Both Desktop OAuth helpers return `ERROR_CODE_FAILED_PRECONDITION` on Android, iOS, and Web before opening a browser or loopback listener.
+
 ## Session persistence
 
 - By default (`persistSession: true`) the token pair is saved to `user://hive_ng_session.cfg`; set `persistSession: false` to keep it in memory.
+- In Web builds, check `OS.is_userfs_persistent()` before relying on the session file across browser restarts.
 - After `initialize()`, call `restore_session()` to resume a previous login. It returns the player Dictionary, or an empty Dictionary when there is no valid session:
 
 ```gdscript
