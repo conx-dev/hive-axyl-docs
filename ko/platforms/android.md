@@ -28,9 +28,11 @@ dependencyResolutionManagement {
 
 ```kotlin
 dependencies {
-    implementation("io.github.conx-dev:hive-axyl-android-sdk:0.1.0")
+    implementation("io.github.conx-dev:hive-axyl-android-sdk:<VERSION>")
 }
 ```
+
+`<VERSION>`을 배포된 SDK 버전으로 바꾸세요.
 
 ## 초기화
 

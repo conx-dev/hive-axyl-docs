@@ -18,7 +18,7 @@ Add the GitHub Swift package and link the `HiveAxylSDK` product to your target.
 dependencies: [
     .package(
         url: "https://github.com/conx-dev/hive-axyl-ios-sdk.git",
-        from: "0.1.0"
+        from: "<VERSION>"
     )
 ]
 
@@ -29,6 +29,8 @@ dependencies: [
     ]
 )
 ```
+
+Replace `<VERSION>` with a published SDK version.
 
 ## Initialize
 

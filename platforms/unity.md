@@ -22,6 +22,8 @@ Add the SDK Git dependency to `Packages/manifest.json`:
 }
 ```
 
+Replace `<VERSION>` with a published SDK version.
+
 Unity imports the package and its bundled plugins automatically.
 
 ## Initialize

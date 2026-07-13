@@ -27,7 +27,10 @@ SDK를 `addons/hive_axyl` 경로의 Git submodule로 추가합니다.
 
 ```bash
 git submodule add https://github.com/conx-dev/hive-axyl-godot-sdk.git addons/hive_axyl
+git -C addons/hive_axyl checkout <VERSION>
 ```
+
+`<VERSION>`을 배포된 SDK 버전으로 바꾸세요.
 
 ::: tip Runtime addon이며 editor plugin이 아닙니다
 Project Settings -> Plugins에서 활성화할 것은 없습니다. 코드 또는 scene에서 `HiveAxyl` node를 만들고 scene tree에 추가합니다.

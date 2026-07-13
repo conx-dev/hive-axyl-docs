@@ -28,9 +28,11 @@ Then add the SDK dependency to your app module (`app/build.gradle.kts`):
 
 ```kotlin
 dependencies {
-    implementation("io.github.conx-dev:hive-axyl-android-sdk:0.1.0")
+    implementation("io.github.conx-dev:hive-axyl-android-sdk:<VERSION>")
 }
 ```
+
+Replace `<VERSION>` with a published SDK version.
 
 ## Initialize
 

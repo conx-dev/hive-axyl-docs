@@ -27,7 +27,10 @@ Add the SDK as a Git submodule under `addons/hive_axyl`:
 
 ```bash
 git submodule add https://github.com/conx-dev/hive-axyl-godot-sdk.git addons/hive_axyl
+git -C addons/hive_axyl checkout <VERSION>
 ```
+
+Replace `<VERSION>` with a published SDK version.
 
 ::: tip Runtime addon, not an editor plugin
 There is nothing to enable under Project Settings → Plugins. You create a `HiveAxyl` node in code (or in a scene) and add it to the scene tree.

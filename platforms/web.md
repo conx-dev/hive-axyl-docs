@@ -14,8 +14,10 @@ Before you start, create a project and issue a client API key in the console. Se
 ## Installation
 
 ```bash
-npm install @hive-axyl/web-sdk
+npm install @hive-axyl/web-sdk@<VERSION>
 ```
+
+Replace `<VERSION>` with a published SDK version.
 
 The package ships three consumption formats:
 
@@ -23,7 +25,7 @@ The package ships three consumption formats:
 | --- | --- | --- |
 | npm + bundler | ESM + CJS + type declarations | `import { createHiveAxyl } from "@hive-axyl/web-sdk"` |
 | React bindings | ESM + CJS subpath export | `import { HiveProvider, useAuth } from "@hive-axyl/web-sdk/react"` |
-| CDN `<script>` (no build step) | Self-contained IIFE bundle, global `HiveAxyl` | `https://cdn.jsdelivr.net/npm/@hive-axyl/web-sdk` (also available on unpkg) |
+| CDN `<script>` (no build step) | Self-contained IIFE bundle, global `HiveAxyl` | `https://cdn.jsdelivr.net/npm/@hive-axyl/web-sdk@<VERSION>` (also available on unpkg) |
 
 ## Initialize
 
@@ -198,7 +200,7 @@ function Login() {
 The IIFE bundle inlines all dependencies and exposes the global `HiveAxyl`:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@hive-axyl/web-sdk"></script>
+<script src="https://cdn.jsdelivr.net/npm/@hive-axyl/web-sdk@<VERSION>"></script>
 <script>
   const hive = HiveAxyl.createHiveAxyl({
     projectId: "your-project-id",

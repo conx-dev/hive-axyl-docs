@@ -14,8 +14,10 @@ Hive Axyl Web SDK(`@hive-axyl/web-sdk`)는 브라우저 게임용 TypeScript SDK
 ## 설치
 
 ```bash
-npm install @hive-axyl/web-sdk
+npm install @hive-axyl/web-sdk@<VERSION>
 ```
+
+`<VERSION>`을 배포된 SDK 버전으로 바꾸세요.
 
 패키지는 세 가지 사용 방식을 제공합니다.
 
@@ -23,7 +25,7 @@ npm install @hive-axyl/web-sdk
 | --- | --- | --- |
 | npm + bundler | ESM + CJS + type declarations | `import { createHiveAxyl } from "@hive-axyl/web-sdk"` |
 | React bindings | ESM + CJS subpath export | `import { HiveProvider, useAuth } from "@hive-axyl/web-sdk/react"` |
-| CDN `<script>` (build step 없음) | Self-contained IIFE bundle, global `HiveAxyl` | `https://cdn.jsdelivr.net/npm/@hive-axyl/web-sdk` (unpkg도 사용 가능) |
+| CDN `<script>` (build step 없음) | Self-contained IIFE bundle, global `HiveAxyl` | `https://cdn.jsdelivr.net/npm/@hive-axyl/web-sdk@<VERSION>` (unpkg도 사용 가능) |
 
 ## 초기화
 
@@ -198,7 +200,7 @@ function Login() {
 IIFE bundle은 모든 dependency를 inline하고 global `HiveAxyl`을 노출합니다.
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/@hive-axyl/web-sdk"></script>
+<script src="https://cdn.jsdelivr.net/npm/@hive-axyl/web-sdk@<VERSION>"></script>
 <script>
   const hive = HiveAxyl.createHiveAxyl({
     projectId: "your-project-id",
