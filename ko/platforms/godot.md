@@ -1,19 +1,21 @@
 # Godot SDK
 
-Hive Axyl Godot SDK는 Godot 4.x 데스크톱 게임을 위한 runtime GDScript addon(`addons/hive_axyl`)입니다. Native extension이나 protobuf tooling 없이 Connect JSON protocol을 사용하는 일반 `HTTPRequest` 호출로 플랫폼과 통신합니다.
+Hive Axyl Godot SDK는 Godot 4.x Desktop, Android, iOS, Web 게임을 위한 runtime GDScript addon(`addons/hive_axyl`)입니다. Native extension이나 protobuf tooling 없이 Connect JSON protocol을 사용하는 일반 `HTTPRequest` 호출로 플랫폼과 통신합니다.
 
 시작하기 전에 콘솔에서 프로젝트를 만들고 client API key를 발급하세요. [프로젝트와 API 키](/ko/console/projects-api-keys)를 참고하세요.
 
 ## 요구 사항
 
 - Godot 4.x(bundled sample project는 Godot 4.6+ 대상)
-- Desktop targets(Windows, macOS, Linux)
+- Desktop, Android, iOS, Web export target
+- Android export의 `INTERNET` 권한 활성화
+- HTTPS로 배포하고 Hive Axyl endpoint CORS 정책에 배포 origin을 허용한 Web 환경
 
 ## 지원 범위
 
 | Domain | Included |
 | --- | --- |
-| Auth (providers, guest, Google desktop, Facebook desktop, session restore, logout) | Yes |
+| Auth (providers, guest, Google/Facebook 직접 token, Desktop OAuth, session restore, logout) | Yes |
 | Notice (active notices) | Yes |
 | Mailbox (list, check new, claim) | Yes |
 | Payments | No - Steam payment integration으로 예정 |
@@ -84,12 +86,21 @@ func _ready() -> void:
 
 ## 로그인
 
-먼저 provider list를 조회하세요. 서버는 프로젝트와 국가별로 노출할 provider를 결정하며(Godot SDK는 `DESKTOP` platform으로 보고), 클라이언트는 응답에 포함된 것만 표시해야 합니다.
+먼저 provider list를 조회하세요. SDK는 export target을 감지해 `WEB`, `ANDROID`, `IOS`, `DESKTOP` 중 하나로 보고합니다. 서버는 프로젝트, 국가, 플랫폼별로 노출할 provider를 결정하며, 클라이언트는 응답에 포함된 것만 표시해야 합니다.
 
 ```gdscript
 var result = await hive.auth.get_login_providers()
 # result: { "providers": ["google", "guest"], "country": "US" }
 ```
+
+| Export target | Guest | Google | Facebook |
+| --- | --- | --- | --- |
+| Desktop | 직접 API | 직접 ID token 또는 내장 Desktop OAuth | 직접 access token 또는 내장 Desktop OAuth |
+| Android | 직접 API | 플랫폼 브릿지 ID token | 플랫폼 브릿지 access token |
+| iOS | 직접 API | 플랫폼 브릿지 ID token | 플랫폼 브릿지 access token |
+| Web | 직접 API | JavaScript 브릿지 ID token | JavaScript 브릿지 access token |
+
+Godot SDK는 Google/Facebook native plugin이나 JavaScript provider SDK를 포함하지 않습니다. Android, iOS, Web에서는 게임의 플랫폼 브릿지가 provider token을 획득한 뒤 Hive Axyl 직접 로그인 API를 호출합니다.
 
 ### Guest login
 
@@ -99,7 +110,15 @@ if not player.is_empty():
     print("guest login: ", player.get("player_id", ""))
 ```
 
-### Google (desktop OAuth)
+### Google
+
+모든 export target에서 플랫폼 provider 브릿지가 획득한 ID token을 전달할 수 있습니다.
+
+```gdscript
+var player = await hive.auth.login_with_google(id_token)
+```
+
+#### Desktop OAuth helper
 
 `login_with_google_desktop()`은 전체 desktop OAuth flow를 대신 실행합니다.
 
@@ -116,21 +135,26 @@ var player = await hive.auth.login_with_google_desktop()
 
 Google Cloud Console에서 OAuth 2.0 **Desktop app** client를 만들고 client ID를 Hive Axyl 콘솔의 프로젝트에 등록하세요. [로그인 제공자](/ko/console/login-providers)를 참고하세요.
 
-다른 연동으로 Google ID token을 얻었다면 직접 전달합니다.
+### Facebook
+
+모든 export target에서 플랫폼 provider 브릿지가 획득한 access token을 전달할 수 있습니다.
 
 ```gdscript
-var player = await hive.auth.login_with_google(id_token)
+var player = await hive.auth.login_with_facebook(access_token)
 ```
 
-### Facebook (desktop OAuth)
+#### Desktop OAuth helper
 
 `login_with_facebook_desktop()`은 system browser를 열고 `127.0.0.1`에서 Hive Axyl callback을 받은 다음 짧은 수명의 일회용 코드로 로그인을 완료합니다.
 
 Facebook App ID와 App Secret은 Hive Axyl 콘솔에만 등록하세요. 자격증명 카드에 표시되는 Facebook Redirect URI를 Meta for Developers의 Valid OAuth Redirect URI에 정확히 등록해야 합니다. 게임은 App Secret을 받지 않으며 Facebook JavaScript SDK 허용 도메인도 필요하지 않습니다.
 
+두 Desktop OAuth helper는 Android, iOS, Web에서 browser나 loopback listener를 열기 전에 `ERROR_CODE_FAILED_PRECONDITION`을 반환합니다.
+
 ## 세션 영속성
 
 - 기본값(`persistSession: true`)에서는 token pair가 `user://hive_ng_session.cfg`에 저장됩니다. `persistSession: false`를 설정하면 memory only입니다.
+- Web build에서는 browser 재시작 이후 session file을 사용하기 전에 `OS.is_userfs_persistent()`를 확인하세요.
 - `initialize()` 후 `restore_session()`을 호출해 이전 로그인을 복구합니다. 유효한 세션이 없으면 empty Dictionary를 반환합니다.
 
 ```gdscript
