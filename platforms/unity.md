@@ -17,7 +17,7 @@ Add the SDK Git dependency to `Packages/manifest.json`:
 ```json
 {
   "dependencies": {
-    "com.hiveaxyl.sdk": "https://github.com/conx-dev/hive-axyl-unity-sdk.git#0.1.0"
+    "com.hiveaxyl.sdk": "https://github.com/conx-dev/hive-axyl-unity-sdk.git#<VERSION>"
   }
 }
 ```

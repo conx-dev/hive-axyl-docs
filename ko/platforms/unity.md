@@ -17,7 +17,7 @@ Hive Axyl Unity SDK는 C#으로 작성된 UPM 패키지(`com.hiveaxyl.sdk`)입�
 ```json
 {
   "dependencies": {
-    "com.hiveaxyl.sdk": "https://github.com/conx-dev/hive-axyl-unity-sdk.git#0.1.0"
+    "com.hiveaxyl.sdk": "https://github.com/conx-dev/hive-axyl-unity-sdk.git#<VERSION>"
   }
 }
 ```
