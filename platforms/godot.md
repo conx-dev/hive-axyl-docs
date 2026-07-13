@@ -13,7 +13,7 @@ Before you start, create a project and issue a client API key in the console. Se
 
 | Domain | Included |
 | --- | --- |
-| Auth (providers, guest, Google desktop, session restore, logout) | Yes |
+| Auth (providers, guest, Google desktop, Facebook desktop, session restore, logout) | Yes |
 | Notice (active notices) | Yes |
 | Mailbox (list, check new, claim) | Yes |
 | Payments | No — planned via Steam payment integration |
@@ -121,6 +121,12 @@ If you obtain a Google ID token through some other integration, pass it directly
 ```gdscript
 var player = await hive.auth.login_with_google(id_token)
 ```
+
+### Facebook (desktop OAuth)
+
+`login_with_facebook_desktop()` opens the system browser, receives the Hive Axyl callback through `127.0.0.1`, and completes login with a short-lived one-time code.
+
+Configure the Facebook App ID and App Secret in the Hive Axyl console. Register the Facebook Redirect URI shown on the credential card as an exact Valid OAuth Redirect URI in Meta for Developers. The game never receives the App Secret, and this flow does not require a Facebook JavaScript SDK allowed domain.
 
 ## Session persistence
 

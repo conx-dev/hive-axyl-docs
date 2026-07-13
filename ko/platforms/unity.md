@@ -100,6 +100,12 @@ Player player = await hive.Auth.LoginWithGoogleAsync(googleIdToken);
 
 먼저 콘솔에서 프로젝트의 OAuth client ID를 등록하세요. [로그인 제공자](/ko/console/login-providers)를 참고하세요.
 
+### Facebook (desktop OAuth)
+
+Standalone과 Editor build에서는 `LoginWithFacebookDesktopAsync()`가 system browser를 열고 `127.0.0.1` loopback callback을 통해 Facebook 로그인을 완료합니다.
+
+Facebook App ID와 App Secret은 Hive Axyl 콘솔에만 등록하세요. 자격증명 카드에 표시되는 Facebook Redirect URI를 Meta for Developers의 Valid OAuth Redirect URI에 정확히 등록해야 합니다. Facebook JavaScript SDK를 사용하지 않으므로 JavaScript SDK 허용 도메인은 필요하지 않습니다.
+
 ## 세션 영속성
 
 - 기본값(`PersistSession = true`)에서는 token pair가 `PlayerPrefs`에 저장됩니다. `PersistSession = false`를 설정하면 memory only입니다.
