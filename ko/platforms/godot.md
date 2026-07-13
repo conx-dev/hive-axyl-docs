@@ -13,7 +13,7 @@ Hive Axyl Godot SDK는 Godot 4.x 데스크톱 게임을 위한 runtime GDScript 
 
 | Domain | Included |
 | --- | --- |
-| Auth (providers, guest, Google desktop, session restore, logout) | Yes |
+| Auth (providers, guest, Google desktop, Facebook desktop, session restore, logout) | Yes |
 | Notice (active notices) | Yes |
 | Mailbox (list, check new, claim) | Yes |
 | Payments | No - Steam payment integration으로 예정 |
@@ -121,6 +121,12 @@ Google Cloud Console에서 OAuth 2.0 **Desktop app** client를 만들고 client 
 ```gdscript
 var player = await hive.auth.login_with_google(id_token)
 ```
+
+### Facebook (desktop OAuth)
+
+`login_with_facebook_desktop()`은 system browser를 열고 `127.0.0.1`에서 Hive Axyl callback을 받은 다음 짧은 수명의 일회용 코드로 로그인을 완료합니다.
+
+Facebook App ID와 App Secret은 Hive Axyl 콘솔에만 등록하세요. 자격증명 카드에 표시되는 Facebook Redirect URI를 Meta for Developers의 Valid OAuth Redirect URI에 정확히 등록해야 합니다. 게임은 App Secret을 받지 않으며 Facebook JavaScript SDK 허용 도메인도 필요하지 않습니다.
 
 ## 세션 영속성
 

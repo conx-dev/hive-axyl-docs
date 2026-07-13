@@ -100,6 +100,12 @@ Player player = await hive.Auth.LoginWithGoogleAsync(googleIdToken);
 
 Register your OAuth client IDs for the project in the console first. See [Login Providers](/console/login-providers).
 
+### Facebook (desktop OAuth)
+
+For Standalone and Editor builds, `LoginWithFacebookDesktopAsync()` opens the system browser and completes Facebook login through a `127.0.0.1` loopback callback.
+
+Configure the Facebook App ID and App Secret in the Hive Axyl console. Register the Facebook Redirect URI shown on the credential card as an exact Valid OAuth Redirect URI in Meta for Developers. This flow does not use the Facebook JavaScript SDK, so a JavaScript SDK allowed domain is not required.
+
 ## Session persistence
 
 - By default (`PersistSession = true`) the token pair is stored in `PlayerPrefs`; set `PersistSession = false` to keep it in memory.
