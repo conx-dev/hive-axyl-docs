@@ -108,6 +108,18 @@ For Standalone and Editor builds, `LoginWithFacebookDesktopAsync()` opens the sy
 
 Configure the Facebook App ID and App Secret in the Hive Axyl console. Register the Facebook Redirect URI shown on the credential card as an exact Valid OAuth Redirect URI in Meta for Developers. This flow does not use the Facebook JavaScript SDK, so a JavaScript SDK allowed domain is not required.
 
+### Apple
+
+On Android, iOS, and WebGL, obtain an Apple identity token through the platform bridge and pass it to the direct API:
+
+```csharp
+Player player = await hive.Auth.LoginWithAppleAsync(appleIdentityToken);
+```
+
+For Standalone and Editor builds, `LoginWithAppleDesktopAsync(servicesId)` opens the system browser and receives the Hive Axyl result through a `127.0.0.1` form POST callback.
+
+Register the Services ID in the Hive Axyl console. In Apple Developer, register the HTTPS Apple Redirect URI shown on the console credential card as the Services ID Return URL. Do not register the SDK's `127.0.0.1` callback with Apple; it is only used between the Hive Axyl auth server and the local game process. Apple private keys remain in the console and auth server.
+
 ## Session persistence
 
 - By default (`PersistSession = true`) the token pair is stored in `PlayerPrefs`; set `PersistSession = false` to keep it in memory.

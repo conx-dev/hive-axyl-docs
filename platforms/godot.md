@@ -96,14 +96,14 @@ var result = await hive.auth.get_login_providers()
 # result: { "providers": ["google", "guest"], "country": "US" }
 ```
 
-| Export target | Guest | Google | Facebook |
-| --- | --- | --- | --- |
-| Desktop | Direct API | Direct ID token or built-in Desktop OAuth | Direct access token or built-in Desktop OAuth |
-| Android | Direct API | Platform bridge ID token | Platform bridge access token |
-| iOS | Direct API | Platform bridge ID token | Platform bridge access token |
-| Web | Direct API | JavaScript bridge ID token | JavaScript bridge access token |
+| Export target | Guest | Google | Facebook | Apple |
+| --- | --- | --- | --- | --- |
+| Desktop | Direct API | Direct ID token or built-in Desktop OAuth | Direct access token or built-in Desktop OAuth | Direct identity token or built-in Desktop OAuth |
+| Android | Direct API | Platform bridge ID token | Platform bridge access token | Platform bridge identity token |
+| iOS | Direct API | Platform bridge ID token | Platform bridge access token | Platform bridge identity token |
+| Web | Direct API | JavaScript bridge ID token | JavaScript bridge access token | JavaScript bridge identity token |
 
-The Godot SDK does not bundle Google/Facebook native plugins or JavaScript provider SDKs. On Android, iOS, and Web, your game bridge obtains the provider token and calls the direct Hive Axyl login API.
+The Godot SDK does not bundle Google, Facebook, or Apple native plugins or JavaScript provider SDKs. On Android, iOS, and Web, your game bridge obtains the provider token and calls the direct Hive Axyl login API.
 
 ### Guest login
 
@@ -152,7 +152,19 @@ var player = await hive.auth.login_with_facebook(access_token)
 
 Configure the Facebook App ID and App Secret in the Hive Axyl console. Register the Facebook Redirect URI shown on the credential card as an exact Valid OAuth Redirect URI in Meta for Developers. The game never receives the App Secret, and this flow does not require a Facebook JavaScript SDK allowed domain.
 
-Both Desktop OAuth helpers return `ERROR_CODE_FAILED_PRECONDITION` on Android, iOS, and Web before opening a browser or loopback listener.
+### Apple
+
+Pass an identity token obtained through a platform provider bridge on any export target:
+
+```gdscript
+var player = await hive.auth.login_with_apple(identity_token)
+```
+
+For Desktop, `login_with_apple_desktop(services_id)` opens the system browser and receives the Hive Axyl result through a `127.0.0.1` form POST callback.
+
+Register the Services ID in the Hive Axyl console. In Apple Developer, register the HTTPS Apple Redirect URI shown on the console credential card as the Services ID Return URL. Do not register the SDK's `127.0.0.1` callback with Apple; it is only used between the Hive Axyl auth server and the local game process. Apple private keys remain in the console and auth server.
+
+All three Desktop OAuth helpers return `ERROR_CODE_FAILED_PRECONDITION` on Android, iOS, and Web before opening a browser or loopback listener.
 
 ## Session persistence
 

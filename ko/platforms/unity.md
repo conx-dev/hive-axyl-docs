@@ -108,6 +108,18 @@ Standalone과 Editor build에서는 `LoginWithFacebookDesktopAsync()`가 system 
 
 Facebook App ID와 App Secret은 Hive Axyl 콘솔에만 등록하세요. 자격증명 카드에 표시되는 Facebook Redirect URI를 Meta for Developers의 Valid OAuth Redirect URI에 정확히 등록해야 합니다. Facebook JavaScript SDK를 사용하지 않으므로 JavaScript SDK 허용 도메인은 필요하지 않습니다.
 
+### Apple
+
+Android, iOS, WebGL에서는 플랫폼 브릿지로 Apple identity token을 얻은 뒤 직접 API에 전달합니다.
+
+```csharp
+Player player = await hive.Auth.LoginWithAppleAsync(appleIdentityToken);
+```
+
+Standalone과 Editor build에서는 `LoginWithAppleDesktopAsync(servicesId)`가 system browser를 열고 `127.0.0.1` form POST callback으로 Hive Axyl 로그인 결과를 받습니다.
+
+Services ID는 Hive Axyl 콘솔에 등록하세요. Apple Developer에는 콘솔 자격증명 카드에 표시되는 HTTPS Apple Redirect URI를 Services ID Return URL로 등록합니다. SDK의 `127.0.0.1` callback은 Hive Axyl auth 서버가 로컬 게임 프로세스에 결과를 전달하는 용도이므로 Apple Developer에 등록하지 않습니다. Apple private key는 콘솔과 auth 서버에만 둡니다.
+
 ## 세션 영속성
 
 - 기본값(`PersistSession = true`)에서는 token pair가 `PlayerPrefs`에 저장됩니다. `PersistSession = false`를 설정하면 memory only입니다.

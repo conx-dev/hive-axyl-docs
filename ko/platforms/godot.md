@@ -96,14 +96,14 @@ var result = await hive.auth.get_login_providers()
 # result: { "providers": ["google", "guest"], "country": "US" }
 ```
 
-| Export target | Guest | Google | Facebook |
-| --- | --- | --- | --- |
-| Desktop | 직접 API | 직접 ID token 또는 내장 Desktop OAuth | 직접 access token 또는 내장 Desktop OAuth |
-| Android | 직접 API | 플랫폼 브릿지 ID token | 플랫폼 브릿지 access token |
-| iOS | 직접 API | 플랫폼 브릿지 ID token | 플랫폼 브릿지 access token |
-| Web | 직접 API | JavaScript 브릿지 ID token | JavaScript 브릿지 access token |
+| Export target | Guest | Google | Facebook | Apple |
+| --- | --- | --- | --- | --- |
+| Desktop | 직접 API | 직접 ID token 또는 내장 Desktop OAuth | 직접 access token 또는 내장 Desktop OAuth | 직접 identity token 또는 내장 Desktop OAuth |
+| Android | 직접 API | 플랫폼 브릿지 ID token | 플랫폼 브릿지 access token | 플랫폼 브릿지 identity token |
+| iOS | 직접 API | 플랫폼 브릿지 ID token | 플랫폼 브릿지 access token | 플랫폼 브릿지 identity token |
+| Web | 직접 API | JavaScript 브릿지 ID token | JavaScript 브릿지 access token | JavaScript 브릿지 identity token |
 
-Godot SDK는 Google/Facebook native plugin이나 JavaScript provider SDK를 포함하지 않습니다. Android, iOS, Web에서는 게임의 플랫폼 브릿지가 provider token을 획득한 뒤 Hive Axyl 직접 로그인 API를 호출합니다.
+Godot SDK는 Google, Facebook, Apple native plugin이나 JavaScript provider SDK를 포함하지 않습니다. Android, iOS, Web에서는 게임의 플랫폼 브릿지가 provider token을 획득한 뒤 Hive Axyl 직접 로그인 API를 호출합니다.
 
 ### Guest login
 
@@ -152,7 +152,19 @@ var player = await hive.auth.login_with_facebook(access_token)
 
 Facebook App ID와 App Secret은 Hive Axyl 콘솔에만 등록하세요. 자격증명 카드에 표시되는 Facebook Redirect URI를 Meta for Developers의 Valid OAuth Redirect URI에 정확히 등록해야 합니다. 게임은 App Secret을 받지 않으며 Facebook JavaScript SDK 허용 도메인도 필요하지 않습니다.
 
-두 Desktop OAuth helper는 Android, iOS, Web에서 browser나 loopback listener를 열기 전에 `ERROR_CODE_FAILED_PRECONDITION`을 반환합니다.
+### Apple
+
+모든 export target에서 플랫폼 provider 브릿지가 획득한 identity token을 전달할 수 있습니다.
+
+```gdscript
+var player = await hive.auth.login_with_apple(identity_token)
+```
+
+Desktop에서는 `login_with_apple_desktop(services_id)`가 system browser를 열고 `127.0.0.1` form POST callback으로 Hive Axyl 로그인 결과를 받습니다.
+
+Services ID는 Hive Axyl 콘솔에 등록하세요. Apple Developer에는 콘솔 자격증명 카드에 표시되는 HTTPS Apple Redirect URI를 Services ID Return URL로 등록합니다. SDK의 `127.0.0.1` callback은 Hive Axyl auth 서버가 로컬 게임 프로세스에 결과를 전달하는 용도이므로 Apple Developer에 등록하지 않습니다. Apple private key는 콘솔과 auth 서버에만 둡니다.
+
+세 Desktop OAuth helper는 Android, iOS, Web에서 browser나 loopback listener를 열기 전에 `ERROR_CODE_FAILED_PRECONDITION`을 반환합니다.
 
 ## 세션 영속성
 
