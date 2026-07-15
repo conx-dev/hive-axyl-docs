@@ -6,7 +6,7 @@
 
 게임 내 공지와 표시 기간을 관리하려면 **Notices**로 이동합니다.
 
-공지 목록은 각 공지의 제목, 상태(**Live**, **Waiting**, **Ended** - 현재 시간 기준), 표시 기간, view count를 보여주며 **Edit**, **Delete** action을 제공합니다. 삭제 시 확인을 요청합니다.
+공지 목록은 각 공지의 제목, 상태(**Live**, **Waiting**, **Ended** - 현재 시간 기준), 표시 기간, view count를 보여주며 **Copy**, **Edit**, **Delete** action을 제공합니다. 삭제 시 확인을 요청합니다.
 
 공지를 만들려면:
 
@@ -15,6 +15,8 @@
 3. **Save**를 클릭합니다.
 
 기존 공지를 수정하려면 행에서 **Edit**을 클릭합니다. form이 기존 값으로 채워집니다. 완료 후 **Save**를 클릭하거나 **New**로 form을 초기화합니다.
+
+기존 공지를 재사용하려면 **Copy**를 클릭합니다. 한글·영문 title과 body가 신규 공지 form에 복사되고, 새 노출 기간을 입력할 수 있도록 시작·종료 시각은 비워집니다.
 
 ## Maintenance
 
@@ -47,7 +49,7 @@
 
 reward mail을 포함한 게임 내 메일을 보내려면 **Mailbox**로 이동합니다.
 
-메일 목록은 title/sender, type(**Text** 또는 **Item**), audience(**All** 또는 **Individual**), claim window를 보여주며 **Edit**, **Delete** action을 제공합니다.
+메일 목록은 title/sender, type(**Text** 또는 **Item**), audience(**All** 또는 **Individual**), claim window를 보여주며 **Copy**, **Edit**, **Delete** action을 제공합니다.
 
 메일을 만들려면:
 
@@ -61,6 +63,8 @@ reward mail을 포함한 게임 내 메일을 보내려면 **Mailbox**로 이동
 4. 필요하면 **Sender** 이름을 설정합니다(최대 64자).
 5. 언어별 **Title**과 **Body**를 입력합니다(**Korean** / **English** tab, 최소 한 언어, body는 HTML editor).
 6. **Save**를 클릭합니다.
+
+기존 메일 내용을 재사용하려면 행에서 **Copy**를 클릭합니다. 한글·영문 title과 body가 신규 메일 form에 복사됩니다. Type은 **Text**, audience는 **All**로 초기화되고 claim 기간, sender, reward payload, target player는 비워집니다.
 
 ### Reward payload
 
@@ -101,5 +105,7 @@ Campaign을 만들려면:
 5. **Save**를 클릭합니다.
 
 **Scheduled** 상태인 campaign만 수정하거나 취소할 수 있습니다. 취소 시 확인을 요청합니다.
+
+완료·실패·취소 상태를 포함한 모든 campaign에서 **Copy**를 클릭하면 한글·영문 title과 body가 신규 campaign form에 복사됩니다. 예약 시각, platform, notification option, data payload는 초기화됩니다.
 
 Campaign title을 클릭하면 **Delivery** 목록이 열립니다. 플레이어별 delivery status(**Success**, **Failed**, **Invalid target**, 또는 pending), Firebase installation ID와 token preview, attempt time, error code/message를 확인할 수 있습니다.

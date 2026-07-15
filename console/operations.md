@@ -6,7 +6,7 @@ Day-to-day live operations are handled by four menus: **Notices**, **Maintenance
 
 Go to **Notices** to manage in-game announcements and their display periods.
 
-The notice list shows each notice's title, status (**Live**, **Waiting**, or **Ended**, based on the current time), display period, and view count, with **Edit** and **Delete** actions. Deleting asks for confirmation.
+The notice list shows each notice's title, status (**Live**, **Waiting**, or **Ended**, based on the current time), display period, and view count, with **Copy**, **Edit**, and **Delete** actions. Deleting asks for confirmation.
 
 To create a notice:
 
@@ -15,6 +15,8 @@ To create a notice:
 3. Click **Save**.
 
 To edit an existing notice, click **Edit** on its row — the form is pre-filled; click **Save** when done, or **New** to reset the form.
+
+To reuse a notice, click **Copy**. The Korean and English title and body are copied into a new notice form, while the display period is left empty so you can set a new one.
 
 ## Maintenance
 
@@ -47,7 +49,7 @@ Use the preview with a tester IP or player ID before a maintenance window starts
 
 Go to **Mailbox** to send in-game mail, including reward mail.
 
-The mail list shows the title/sender, type (**Text** or **Item**), audience (**All** or **Individual**), and the claim window, with **Edit** and **Delete** actions.
+The mail list shows the title/sender, type (**Text** or **Item**), audience (**All** or **Individual**), and the claim window, with **Copy**, **Edit**, and **Delete** actions.
 
 To create mail:
 
@@ -61,6 +63,8 @@ To create mail:
 4. Optionally set a **Sender** name (up to 64 characters).
 5. Enter the **Title** and **Body** per language (**Korean** / **English** tabs; at least one language, HTML editor for the body).
 6. Click **Save**.
+
+To reuse mail content, click **Copy** on its row. The Korean and English title and body are copied into a new mail form. Type is reset to **Text**, audience to **All**, and the claim period, sender, reward payload, and target players are cleared.
 
 ### Reward payload
 
@@ -101,5 +105,7 @@ To create a campaign:
 5. Click **Save**.
 
 Only campaigns still in the **Scheduled** state can be edited or canceled. Canceling asks for confirmation.
+
+Click **Copy** on any campaign, including completed, failed, or canceled campaigns, to copy its Korean and English title and body into a new campaign form. The schedule, platform, notification options, and data payload are reset.
 
 Click a campaign title to open its **Delivery** list: per-player delivery status (**Success**, **Failed**, **Invalid target**, or pending), the Firebase installation ID and token preview, the attempt time, and any error code or message.
