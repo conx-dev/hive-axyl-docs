@@ -61,7 +61,7 @@ verifyPurchase(options: VerifyPaymentPurchaseOptions): Promise<PaymentPurchase>
 
 `receiptPayload` 또는 `purchaseToken` 중 하나 이상이 필요합니다. 없으면 `INVALID_ARGUMENT`입니다. Receipt는 서버 측에서 검증되며, 검증된 [`PaymentPurchase`](#paymentpurchase)를 반환합니다.
 
-Errors (`HiveAxylError.code`): 이미 처리된 receipt면 `DUPLICATE_RECEIPT`; `RECEIPT_VERIFICATION_FAILED`; webhook-based web payment에서 confirmation이 아직 도착하지 않았으면 `PURCHASE_PENDING`이며 retry하세요.
+Errors (`HiveAxylError.code`): 이미 처리된 receipt면 `DUPLICATE_RECEIPT`; market이 receipt를 거절하면 `RECEIPT_VERIFICATION_FAILED`; webhook-based web payment에서 confirmation이 아직 도착하지 않았으면 `PURCHASE_PENDING`이며 retry하세요; market 측 일시 장애면 `INTERNAL`이며 같은 receipt로 retry하세요.
 
 ## getPurchase
 

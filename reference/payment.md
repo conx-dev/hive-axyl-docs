@@ -61,7 +61,7 @@ verifyPurchase(options: VerifyPaymentPurchaseOptions): Promise<PaymentPurchase>
 
 At least one of `receiptPayload` or `purchaseToken` is required (`INVALID_ARGUMENT` otherwise). The receipt is verified server-side; returns the verified [`PaymentPurchase`](#paymentpurchase).
 
-Errors (`HiveAxylError.code`): `DUPLICATE_RECEIPT` when the receipt was already processed; `RECEIPT_VERIFICATION_FAILED`; `PURCHASE_PENDING` for webhook-based web payments whose confirmation hasn't arrived yet — retry.
+Errors (`HiveAxylError.code`): `DUPLICATE_RECEIPT` when the receipt was already processed; `RECEIPT_VERIFICATION_FAILED` when the market rejected the receipt; `PURCHASE_PENDING` for webhook-based web payments whose confirmation hasn't arrived yet — retry; `INTERNAL` when the market side was temporarily unavailable — retry with the same receipt.
 
 ## getPurchase
 

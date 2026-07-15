@@ -29,10 +29,14 @@ Secret values are never displayed again after saving. A registered card shows on
 | --- | --- |
 | Google | **Client IDs (Android/iOS/Web)** — enter the OAuth client ID for each platform, comma-separated |
 | Facebook | **App ID** and **App Secret** — the App Secret is used by the server for `appsecret_proof` (HMAC) signing |
-| Apple | **Client IDs** — enter the **iOS Bundle ID** and the **Web Services ID**, comma-separated |
+| Apple | **Client IDs** — enter the **iOS Bundle ID** and the **Web Services ID**, comma-separated. **Web Origins** — for web SDK sign-in only, the allowed origins that may receive the login result |
 
 ::: tip Apple needs two client IDs
 Apple sign-in uses different client IDs per platform: the app's Bundle ID for native iOS sign-in and a Services ID for web-based sign-in. Enter both, comma-separated, in the **Client IDs** field. The Apple card also displays a **Redirect URI** with a copy button — register this URI in your Apple Services ID configuration.
+:::
+
+::: warning Web Origins are required for web Apple sign-in
+For security, the server only delivers Apple login tokens to an allowlisted origin. If you use the **web SDK** for Apple sign-in, enter each site origin that runs the SDK (e.g. `https://game.example.com`) in **Web Origins**, comma-separated. Leaving it empty **blocks web Apple sign-in** for the project. Native (iOS/Android) and desktop loopback flows do not use this field.
 :::
 
 ### Market receipt verification tab
