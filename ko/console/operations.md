@@ -37,6 +37,12 @@
 
 **Clear**를 클릭하고 확인합니다. Maintenance configuration이 제거되고 플레이어가 다시 접속할 수 있습니다.
 
+### 이전 점검 재사용
+
+**Previous Maintenance Settings**는 보관된 설정을 최신순으로 보여줍니다. 현재 설정을 덮어쓰거나 해제할 때마다 기존 설정이 보관됩니다. 이력은 자동 만료 없이 유지되며 기능 배포 후 변경분부터 쌓입니다. 배포 전 과거 설정은 소급 생성하지 않습니다.
+
+보관된 설정에서 **Copy**를 클릭하면 한글·영문 maintenance message가 form에 복사됩니다. 새 점검 창의 설정을 입력할 수 있도록 시작·종료 시각, bypass IP, bypass player ID는 비워집니다.
+
 ### 결과 preview
 
 **Maintenance check** panel에서는 클라이언트가 경험할 결과를 확인할 수 있습니다. **Language**, **IP**, **Player ID**, 기준 **Time**을 입력하고 **Check**를 클릭합니다. 결과는 maintenance 적용 여부, bypass 여부, 반환될 정확한 message를 보여줍니다.

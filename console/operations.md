@@ -37,6 +37,12 @@ A project has one maintenance configuration at a time. The page shows the curren
 
 Click **Clear** and confirm. The maintenance configuration is removed and players can connect again.
 
+### Reuse previous maintenance
+
+**Previous Maintenance Settings** lists archived configurations newest first. The current configuration is archived whenever it is replaced or cleared. History is retained without automatic expiry and starts with changes made after this feature is deployed; older configurations are not backfilled.
+
+Click **Copy** on an archived configuration to copy its Korean and English maintenance messages into the form. The start and end times, bypass IPs, and bypass player IDs are cleared so you can enter settings for the new maintenance window.
+
 ### Preview the result
 
 The **Maintenance check** panel lets you verify what a client would experience: enter a **Language**, **IP**, **Player ID**, and a reference **Time**, then click **Check**. The result shows whether maintenance applies, whether the request would be bypassed, and the exact message that would be returned.
