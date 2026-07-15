@@ -1,12 +1,12 @@
 # Web SDK
 
-The Hive Axyl Web SDK (`@hive-axyl/web-sdk`) is a TypeScript SDK for browser games. It handles authentication, session persistence, notices, mailbox, and payments over ConnectRPC.
+The Hive Axyl Web SDK (`@hive-axyl/web-sdk`) is a TypeScript SDK for browser games. It handles authentication, session persistence, notices, mailbox, and payments.
 
 Before you start, create a project and issue a client API key in the console. See [Projects & API Keys](/console/projects-api-keys).
 
 ## Requirements
 
-- A modern browser (the SDK uses `fetch` via ConnectRPC web transport)
+- A modern browser with `fetch` support
 - For npm consumption: any bundler or runtime that supports ESM or CJS (Vite, Next.js, webpack, Node)
 - For React bindings: React 18 or newer (optional peer dependency)
 - No build tooling is required when using the CDN build
@@ -153,7 +153,7 @@ if (player === null) {
 ```
 
 - When a call fails with `SESSION_EXPIRED`, the SDK refreshes the token pair once and retries automatically.
-- Use `hive.auth.playerValidationToken()` immediately after login when your own game server needs to call `ValidatePlayer`.
+- Use `hive.auth.playerValidationToken()` immediately after login when your game uses server-side player validation.
 - `logout()` revokes the session on the server (best effort) and always clears the local session.
 
 ## React
@@ -246,7 +246,7 @@ Method arguments and full return-type shapes — `Player`, `Notice`, `Mail`, `Pa
 | `BannedError` | class | `reason`, `until?: Date`, `permanent` — code `PLAYER_BANNED` |
 | `MaintenanceError` | class | `maintenanceMessage`, `startsAt?`, `endsAt?` — code `MAINTENANCE_IN_PROGRESS` |
 | `errorCodeOf(err)` / `errorDetailOf(err)` | function | Extract the platform `ErrorCode` / detail from any thrown error |
-| `ErrorCode`, `IdentityProvider`, `MailType` | enum | Generated protobuf enums |
+| `ErrorCode`, `IdentityProvider`, `MailType` | enum | SDK enums |
 | `Player`, `LoginProviders`, `AppleLoginOptions`, `HiveAxylConfig` | type | Public types |
 | `Notice`, `Mail`, `ListMailResult`, `CheckNewMailResult`, `PaymentProduct`, `PaymentPurchase` | type | Domain API types |
 

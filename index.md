@@ -30,11 +30,11 @@ features:
     link: /platforms/unity
     linkText: Unity SDK guide
   - title: Android
-    details: Kotlin Gradle library com.hiveaxyl.sdk built on OkHttp with coroutine and callback APIs.
+    details: Kotlin Gradle library com.hiveaxyl.sdk with coroutine and callback APIs.
     link: /platforms/android
     linkText: Android SDK guide
   - title: iOS
-    details: Swift package HiveAxylSDK for iOS 14+ and macOS 12+, built on URLSession with async/await.
+    details: Swift package HiveAxylSDK for iOS 14+ and macOS 12+ with async/await APIs.
     link: /platforms/ios
     linkText: iOS SDK guide
   - title: Godot

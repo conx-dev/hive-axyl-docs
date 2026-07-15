@@ -1,6 +1,6 @@
 # Godot SDK
 
-The Hive Axyl Godot SDK is a runtime GDScript addon (`addons/hive_axyl`) for Godot 4.x Desktop, Android, iOS, and Web games. It talks to the platform with plain `HTTPRequest` calls using the Connect JSON protocol — no native extensions or protobuf tooling required.
+The Hive Axyl Godot SDK is a runtime GDScript addon (`addons/hive_axyl`) for Godot 4.x Desktop, Android, iOS, and Web games. No native extension setup is required.
 
 Before you start, create a project and issue a client API key in the console. See [Projects & API Keys](/console/projects-api-keys).
 
@@ -179,7 +179,7 @@ if player.is_empty():
 ```
 
 - When a call fails with `SESSION_EXPIRED`, the SDK refreshes the token pair once and retries automatically.
-- Use `hive.auth.player_validation_token()` immediately after login when your own game server needs to call `ValidatePlayer`.
+- Use `hive.auth.player_validation_token()` immediately after login when your game uses server-side player validation.
 - `logout()` revokes the session on the server (best effort), always clears the local session, and returns `true` on success.
 - Idempotent read calls (providers, player, notices, mailbox reads) are retried with backoff on transient transport errors.
 

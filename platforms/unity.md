@@ -1,6 +1,6 @@
 # Unity SDK
 
-The Hive Axyl Unity SDK is a UPM package (`com.hiveaxyl.sdk`) written in C#. It uses `UnityWebRequest` for transport and `Google.Protobuf` for the wire format, and exposes an async/await API surface.
+The Hive Axyl Unity SDK is a C# UPM package (`com.hiveaxyl.sdk`) with an async/await API.
 
 Before you start, create a project and issue a client API key in the console. See [Projects & API Keys](/console/projects-api-keys).
 
@@ -8,7 +8,7 @@ Before you start, create a project and issue a client API key in the console. Se
 
 - Unity 2021.3 LTS or newer
 - Target platforms: Standalone (Windows/macOS/Linux), WebGL, Android, iOS
-- The package bundles its managed dependencies (`Google.Protobuf` and transitive DLLs), so no extra package installs are needed
+- The package bundles its managed dependencies, so no extra package installs are needed
 
 ## Installation
 
@@ -135,7 +135,7 @@ if (restored == null)
 ```
 
 - When a call fails with `SESSION_EXPIRED`, the SDK refreshes the token pair once and retries automatically.
-- Use `hive.Auth.PlayerValidationToken` immediately after login when your own game server needs to call `ValidatePlayer`.
+- Use `hive.Auth.PlayerValidationToken` immediately after login when your game uses server-side player validation.
 - `LogoutAsync()` revokes the session on the server (best effort) and always clears the local session.
 
 ## Error handling

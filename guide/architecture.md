@@ -1,66 +1,47 @@
-# Architecture
+# SDK Behavior
 
-This page explains how the Hive Axyl SDK talks to the platform: what goes over the wire, how players authenticate, and where secrets live. The behavior described here is identical across Web, Unity, Android, iOS, and Godot.
+This page summarizes the client behavior that affects a Hive Axyl integration across Web, Unity, Android, iOS, and Godot.
 
-## Wire protocol
+## Login and sessions
 
-All RPCs are **ConnectRPC unary calls over HTTP POST**. There is no persistent socket to manage — every call is a plain HTTP request, which works with standard proxies, CDNs, and browser networking.
+1. Call **`auth.getLoginProviders(countryOverride?)`** and render only the sign-in methods it returns. The result follows the country mapping configured in [Login Providers](/console/login-providers).
+2. Use the matching login method, such as **`auth.loginWithGoogle(idToken)`** or **`auth.loginAsGuest(deviceId)`**. The SDK returns the signed-in `Player` or a typed error such as `BannedError`.
+3. After login, the SDK applies the active player session to subsequent calls automatically.
+4. Use **`auth.currentPlayer()`** to read the cached player and **`auth.logout()`** to end the session and clear locally stored session data.
 
-| Platform | Encoding |
-| --- | --- |
-| Web, Unity, Android, iOS | Binary protobuf (`application/proto`) |
-| Godot | Connect JSON (no generated protobuf code) |
+When a call fails with `SESSION_EXPIRED`, the SDK refreshes the session once and retries the original call. If refresh fails, the error is returned to your code and the player must log in again.
 
-The request and response shapes are defined once in the platform's protobuf schemas and generated into each SDK, so all platforms agree on the contract byte-for-byte.
+If your game uses server-side player validation, read `playerValidationToken()` immediately after login and pass the returned short-lived token to your game server. Normal SDK calls do not require you to handle this token.
 
-## Authentication flow
+## Credential handling
 
-1. **`auth.getLoginProviders(countryOverride?)`** returns `{ providers, country }`. The server decides which sign-in methods to expose — and in what order — based on your project settings and the player's country (configured in [Login Providers](/console/login-providers)). The client renders **only** what the server returns; there is no client-side provider list to maintain.
-2. **`auth.loginWithGoogle(idToken)`** — your game obtains the `idToken` itself using the platform's Google Sign-In library, then hands it to the SDK unchanged. The server validates the token with the provider and returns a `Player { playerId, nickname, ... }`. If the account is sanctioned, the call fails with a `BannedError` carrying `reason`, `until`, and `permanent` (see [Error Codes](/guide/error-codes)). Some platforms expose additional providers (for example, Apple on Web and mobile) following the same pattern: the client obtains the provider token, the server verifies it.
-3. **`auth.loginAsGuest(deviceId)`** — logs in with a device identifier your game supplies, no external account required.
-4. **`auth.currentPlayer()`** — returns the signed-in player, if any.
-5. **`auth.logout()`** — ends the session and clears stored tokens.
-
-Login and refresh also return a short-lived **player validation token**. If your game uses its own game server, send this token to that server immediately after login; your server calls `GameServerPlayerService.ValidatePlayer` with the token to confirm that the player just logged in successfully.
-
-## Headers and token refresh
-
-The SDK manages credentials on every domain call:
-
-- **`Authorization: Bearer <api-key>`** — your project's API key, attached to all domain service requests.
-- **`X-Player-Token`** — attached automatically after login.
-
-When a call fails with `SESSION_EXPIRED`, the SDK refreshes the session **once** automatically and retries the original call. You do not write refresh logic yourself; if the refresh also fails, the error is surfaced to your code and the player must log in again.
-
-The player validation token is separate from `X-Player-Token`. The SDK exposes it for your game-server handoff, but it is not used as the normal player session token for SDK domain calls.
-
-## Security model
-
-::: warning What the SDK never holds
-The SDK **never contains OAuth client secrets or market receipt-verification keys**. Those credentials are registered in the console, stored server-side, and all verification (provider tokens, purchase receipts) happens on the server. The only secrets the SDK handles are your **API key** and the **player token**.
+::: warning Keep server credentials out of game builds
+Register OAuth client secrets and market receipt-verification credentials only in the Hive Axyl console. Do not include them in client code, configuration files shipped with the game, or public repositories.
 :::
 
-This is why login methods take a provider token as input: the client proves identity with a token it obtained from the platform's own sign-in UI, and the server — not the client — decides whether that token is valid.
+Keep the project API key in your build configuration and manage its scope and rotation from the console. The SDK accepts identity-provider tokens through its login methods and manages the player session automatically; you do not need to construct authentication headers or refresh requests.
 
 ## Session persistence
 
-By default, sessions live in memory and disappear when the game closes. Opt in to persistence and each platform stores the session in its native mechanism:
+Session persistence is enabled by default where the platform provides storage. Disable it when the game should keep the session in memory only.
 
-| Platform | Storage | How to enable |
+| Platform | Default storage | Memory-only setting |
 | --- | --- | --- |
-| Web | `localStorage` | `persistSession: true` |
-| Unity | `PlayerPrefs` (`PlayerPrefsTokenStorage`) | `persistSession = true` |
-| Android | `SharedPreferences` | `persistSession = true` |
-| iOS | Keychain (`KeychainTokenStorage`) | default |
-| Godot | Local session file in the project's user data directory | `persist_session: true` |
+| Web | `localStorage` | `persistSession: false` |
+| Unity | `PlayerPrefs` | `persistSession = false` |
+| Android | `SharedPreferences` when a `Context` is provided | `persistSession = false` |
+| iOS | Keychain | Provide a memory-only token storage implementation |
+| Godot | Project user data directory | `persistSession: false` |
+
+After initialization, call the platform's `restoreSession()` equivalent to resume a stored login. It returns no player when the stored session is missing or expired.
 
 ## Retries and logging
 
-- **Retries** — only idempotent calls are retried, with exponential backoff, up to 2 attempts. Non-idempotent calls (such as login) are never silently repeated.
-- **Logging** — each SDK has a debug flag that toggles verbose logging on and off; it is off by default.
+- **Retries** — idempotent calls may retry transient failures with backoff. Login and other non-idempotent operations are not repeated silently.
+- **Logging** — each SDK provides a debug option for verbose logs. It is disabled by default.
 
 ## See also
 
-- [Getting Started](/guide/getting-started) — console setup and the five-step client lifecycle
-- [Error Codes](/guide/error-codes) — the full error code table and structured error types
-- [Projects & API Keys](/console/projects-api-keys) — issuing and rotating the API key the SDK uses
+- [Getting Started](/guide/getting-started) — console setup and the client lifecycle
+- [Error Codes](/guide/error-codes) — error codes and structured error types
+- [Projects & API Keys](/console/projects-api-keys) — issue and rotate the API key used by the SDK

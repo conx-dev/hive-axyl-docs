@@ -30,11 +30,11 @@ features:
     link: /ko/platforms/unity
     linkText: Unity SDK 가이드
   - title: Android
-    details: OkHttp 기반 Kotlin Gradle 라이브러리 com.hiveaxyl.sdk이며 coroutine API와 callback API를 제공합니다.
+    details: Kotlin Gradle 라이브러리 com.hiveaxyl.sdk이며 coroutine API와 callback API를 제공합니다.
     link: /ko/platforms/android
     linkText: Android SDK 가이드
   - title: iOS
-    details: iOS 14+와 macOS 12+를 위한 Swift 패키지 HiveAxylSDK이며 URLSession과 async/await 기반으로 동작합니다.
+    details: iOS 14+와 macOS 12+를 위한 Swift 패키지 HiveAxylSDK이며 async/await API를 제공합니다.
     link: /ko/platforms/ios
     linkText: iOS SDK 가이드
   - title: Godot

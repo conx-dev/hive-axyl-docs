@@ -1,6 +1,6 @@
 # Android SDK
 
-Hive Axyl Android SDK는 OkHttp와 protobuf-javalite 기반의 Kotlin Gradle 라이브러리(`com.hiveaxyl.sdk`)입니다. 모든 API는 coroutine용 `suspend` 함수와 Java 스타일 call site를 위한 callback overload(`HiveAxylCallback<T>`)를 모두 제공합니다.
+Hive Axyl Android SDK는 Kotlin Gradle 라이브러리(`com.hiveaxyl.sdk`)입니다. 모든 API는 coroutine용 `suspend` 함수와 Java 스타일 call site를 위한 callback overload(`HiveAxylCallback<T>`)를 모두 제공합니다.
 
 시작하기 전에 콘솔에서 프로젝트를 만들고 client API key를 발급하세요. [프로젝트와 API 키](/ko/console/projects-api-keys)를 참고하세요.
 
@@ -182,7 +182,7 @@ if (restored == null) {
 ```
 
 - 호출이 `SESSION_EXPIRED`로 실패하면 SDK는 token pair를 한 번 갱신하고 자동으로 재시도합니다.
-- 자체 게임 서버가 `ValidatePlayer`를 호출해야 한다면 로그인 직후 `hive.auth.playerValidationToken()`을 사용하세요.
+- 게임에서 서버 측 플레이어 검증을 사용한다면 로그인 직후 `hive.auth.playerValidationToken()`을 사용하세요.
 - `logout()`은 서버에서 세션을 폐기하고(best effort) 항상 로컬 세션을 지웁니다.
 - `currentPlayer()`는 network call 없이 마지막 known player를 반환합니다.
 

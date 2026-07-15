@@ -19,7 +19,7 @@ const englishSidebar = [
     text: "Guide",
     items: [
       { text: "Getting Started", link: "/guide/getting-started" },
-      { text: "Architecture", link: "/guide/architecture" },
+      { text: "SDK Behavior", link: "/guide/architecture" },
       { text: "Error Codes", link: "/guide/error-codes" },
     ],
   },
@@ -63,7 +63,7 @@ const koreanSidebar = [
     text: "가이드",
     items: [
       { text: "시작하기", link: "/ko/guide/getting-started" },
-      { text: "아키텍처", link: "/ko/guide/architecture" },
+      { text: "SDK 동작", link: "/ko/guide/architecture" },
       { text: "에러 코드", link: "/ko/guide/error-codes" },
     ],
   },

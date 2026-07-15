@@ -1,6 +1,6 @@
 # iOS SDK
 
-Hive Axyl iOS SDK(`HiveAxylSDK`)는 `URLSession` 기반 Swift package이며 async/await API를 제공합니다. Session token은 기본적으로 Keychain에 저장됩니다.
+Hive Axyl iOS SDK(`HiveAxylSDK`)는 async/await API를 제공하는 Swift package입니다. Session token은 기본적으로 Keychain에 저장됩니다.
 
 시작하기 전에 콘솔에서 프로젝트를 만들고 client API key를 발급하세요. [프로젝트와 API 키](/ko/console/projects-api-keys)를 참고하세요.
 
@@ -8,7 +8,7 @@ Hive Axyl iOS SDK(`HiveAxylSDK`)는 `URLSession` 기반 Swift package이며 asyn
 
 - iOS 14+ 또는 macOS 12+
 - Swift 5.9+ (Xcode 15 이상)
-- Swift Package Manager. Package는 `swift-protobuf`에 의존하며 자동으로 resolve됩니다.
+- Swift Package Manager
 
 ## 설치
 
@@ -150,7 +150,7 @@ if let restored = await hive.auth.restoreSession() {
 ```
 
 - 호출이 `SESSION_EXPIRED`로 실패하면 SDK는 token pair를 한 번 갱신하고 자동으로 재시도합니다.
-- 자체 게임 서버가 `ValidatePlayer`를 호출해야 한다면 로그인 직후 `hive.auth.playerValidationToken()`을 사용하세요.
+- 게임에서 서버 측 플레이어 검증을 사용한다면 로그인 직후 `hive.auth.playerValidationToken()`을 사용하세요.
 - `logout()`은 서버에서 세션을 폐기하고(best effort) 항상 로컬 세션을 지웁니다.
 - `currentPlayer()`는 network call 없이 마지막 known player를 반환합니다. `getPlayer()`는 서버에서 조회합니다.
 

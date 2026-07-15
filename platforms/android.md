@@ -1,6 +1,6 @@
 # Android SDK
 
-The Hive Axyl Android SDK is a Kotlin Gradle library (`com.hiveaxyl.sdk`) built on OkHttp and protobuf-javalite. Every API is available both as a `suspend` function for coroutines and as a callback overload (`HiveAxylCallback<T>`) for Java-style call sites.
+The Hive Axyl Android SDK is a Kotlin Gradle library (`com.hiveaxyl.sdk`). Every API is available both as a `suspend` function for coroutines and as a callback overload (`HiveAxylCallback<T>`) for Java-style call sites.
 
 Before you start, create a project and issue a client API key in the console. See [Projects & API Keys](/console/projects-api-keys).
 
@@ -182,7 +182,7 @@ if (restored == null) {
 ```
 
 - When a call fails with `SESSION_EXPIRED`, the SDK refreshes the token pair once and retries automatically.
-- Use `hive.auth.playerValidationToken()` immediately after login when your own game server needs to call `ValidatePlayer`.
+- Use `hive.auth.playerValidationToken()` immediately after login when your game uses server-side player validation.
 - `logout()` revokes the session on the server (best effort) and always clears the local session.
 - `currentPlayer()` returns the last known player without a network call.
 

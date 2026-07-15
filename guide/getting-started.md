@@ -9,7 +9,7 @@ Every SDK, on every platform, is configured with the same two values. Both come 
 | Value | What it is |
 | --- | --- |
 | **Project ID** | Identifies your game project. The SDK sends it to the platform during initialization. |
-| **API key** | A client credential scoped to your project. The SDK sends it as `Authorization: Bearer <api-key>` on every domain call. |
+| **API key** | A client credential scoped to your project. The SDK applies it automatically. |
 
 ::: warning Keep your API key out of source control
 The full API key is shown only once, at issue time. Store it in your build configuration, not in a public repository.
@@ -78,6 +78,6 @@ Every platform follows the same five-step lifecycle:
 
 ## Next steps
 
-- Understand how authentication and token refresh work under the hood: [Architecture](/guide/architecture)
+- Review session persistence, retries, and credential handling: [SDK Behavior](/guide/architecture)
 - Handle bans, maintenance windows, and other failures the right way: [Error Codes](/guide/error-codes)
 - Set up notices, maintenance, and mailbox from the console: [Operations](/console/operations)

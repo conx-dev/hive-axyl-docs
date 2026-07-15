@@ -120,7 +120,7 @@ No arguments, no network call. Returns the last known [`Player`](#player), or `n
 playerValidationToken(): string | null
 ```
 
-No arguments, no network call. Returns the short-lived token issued at login or refresh for your game server to validate with `GameServerPlayerService.ValidatePlayer`; returns `null` when missing or expired.
+No arguments, no network call. Returns the short-lived token for server-side player validation; returns `null` when missing or expired.
 
 ## Types
 

@@ -120,7 +120,7 @@ Argument와 network call이 없습니다. 마지막 known [`Player`](#player)를
 playerValidationToken(): string | null
 ```
 
-Argument와 network call이 없습니다. 게임 서버가 `GameServerPlayerService.ValidatePlayer`로 login을 검증할 때 사용하는 short-lived token을 반환합니다. 없거나 만료되면 `null`입니다.
+Argument와 network call이 없습니다. 서버 측 플레이어 검증에 사용하는 short-lived token을 반환합니다. 없거나 만료되면 `null`입니다.
 
 ## Types
 
