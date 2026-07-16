@@ -108,10 +108,12 @@ The Godot SDK does not bundle Google, Facebook, or Apple native plugins or JavaS
 ### Guest login
 
 ```gdscript
-var player = await hive.auth.login_as_guest(OS.get_unique_id())
+var player = await hive.auth.login_as_guest()
 if not player.is_empty():
     print("guest login: ", player.get("player_id", ""))
 ```
+
+The SDK creates a cryptographically random installation credential in `user://` on the first guest login. It is independent of session storage and remains after `logout()`. Identity-provider login neither creates nor uses it. Guest login fails before sending a request if durable storage is unavailable. Clearing player data can create a new guest account, and the previous guest account may not be recoverable.
 
 ### Google
 
@@ -188,7 +190,7 @@ if player.is_empty():
 GDScript has no exceptions, so failed calls return an empty value (`{}`, `null`, or `false`) and record the error in `hive.last_error`:
 
 ```gdscript
-var player = await hive.auth.login_as_guest(device_id)
+var player = await hive.auth.login_as_guest()
 if player.is_empty():
     var code := str(hive.last_error.get("code", ""))
     match code:

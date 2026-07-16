@@ -74,9 +74,11 @@ let providers = try await hive.auth.getLoginProviders()
 ### Guest login
 
 ```swift
-let player = try await hive.auth.loginAsGuest(deviceId: deviceId)
+let player = try await hive.auth.loginAsGuest()
 print(player.playerId, player.nickname)
 ```
+
+The SDK creates a cryptographically random installation credential in Keychain on the first guest login. It is independent of session storage and remains after `logout()`. Identity-provider login neither creates nor uses it. Guest login fails before sending a request if durable storage is unavailable. Clearing the credential can create a new guest account, and the previous guest account may not be recoverable.
 
 ### Google
 
@@ -160,7 +162,7 @@ All domain errors surface as the `HiveAxylError` enum — branch on cases, never
 
 ```swift
 do {
-    let player = try await hive.auth.loginAsGuest(deviceId: deviceId)
+    let player = try await hive.auth.loginAsGuest()
 } catch let HiveAxylError.banned(reason, until, permanent) {
     // show a ban notice
 } catch let HiveAxylError.maintenance(info) {

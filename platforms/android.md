@@ -46,7 +46,7 @@ val hive = HiveAxylSdk.createHiveAxyl(
     HiveAxylConfig(
         projectId = "your-project-id",
         apiKey = "your-api-key",
-        context = applicationContext,   // enables the default persisted session storage
+        context = applicationContext,
         clientVersion = "1.0.0",
         language = Locale.getDefault().toLanguageTag(),
         debug = BuildConfig.DEBUG
@@ -75,7 +75,7 @@ hive.initialize(object : HiveAxylCallback<Unit> {
 | --- | --- | --- | --- |
 | `projectId` | `String` | Yes | Project identifier from the console |
 | `apiKey` | `String` | Yes | Client API key issued in the console |
-| `context` | `Context?` | For persistence | Enables the default persisted session storage; without it the SDK falls back to in-memory |
+| `context` | `Context?` | For guest login | Enables durable guest installation storage and the default persisted session storage. Without it, identity-provider login uses in-memory sessions but guest login fails locally. |
 | `clientVersion` | `String` | No | Reported for version gating |
 | `language` | `String` | No | Defaults to `Locale.getDefault().toLanguageTag()` |
 | `debug` | `Boolean` | No | Enables SDK debug logging |
@@ -96,8 +96,10 @@ val providers = hive.auth.getLoginProviders()
 ### Guest login
 
 ```kotlin
-val player = hive.auth.loginAsGuest(deviceId)
+val player = hive.auth.loginAsGuest()
 ```
+
+The SDK creates a cryptographically random installation credential in `SharedPreferences` on the first guest login. Provide `context` when constructing the SDK. The credential is independent of session storage and remains after `logout()`. Identity-provider login neither creates nor uses it. Guest login fails before sending a request if durable storage is unavailable. Clearing app data can create a new guest account, and the previous guest account may not be recoverable.
 
 ### Google
 
@@ -196,7 +198,7 @@ import com.hiveaxyl.sdk.HiveAxylException
 import com.hiveaxyl.sdk.MaintenanceException
 
 try {
-    hive.auth.loginAsGuest(deviceId)
+    hive.auth.loginAsGuest()
 } catch (banned: BannedException) {
     // banned.reason, banned.permanent, banned.until (Date?)
 } catch (maintenance: MaintenanceException) {

@@ -108,10 +108,12 @@ Godot SDK는 Google, Facebook, Apple native plugin이나 JavaScript provider SDK
 ### Guest login
 
 ```gdscript
-var player = await hive.auth.login_as_guest(OS.get_unique_id())
+var player = await hive.auth.login_as_guest()
 if not player.is_empty():
     print("guest login: ", player.get("player_id", ""))
 ```
+
+SDK는 첫 게스트 로그인에서 암호학적으로 안전한 무작위 설치 식별자를 `user://`에 저장합니다. 설치 식별자는 세션 저장소와 분리되며 `logout()` 후에도 유지됩니다. IdP 로그인은 이 값을 만들거나 사용하지 않습니다. 영구 저장소를 사용할 수 없으면 네트워크 요청 전에 게스트 로그인이 실패합니다. 플레이어 데이터를 지우면 새 게스트 계정이 생성될 수 있습니다. 이전 게스트 계정은 복구하지 못할 수 있습니다.
 
 ### Google
 
@@ -188,7 +190,7 @@ if player.is_empty():
 GDScript에는 exception이 없으므로 실패한 호출은 empty value(`{}`, `null`, 또는 `false`)를 반환하고 에러를 `hive.last_error`에 기록합니다.
 
 ```gdscript
-var player = await hive.auth.login_as_guest(device_id)
+var player = await hive.auth.login_as_guest()
 if player.is_empty():
     var code := str(hive.last_error.get("code", ""))
     match code:

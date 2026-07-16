@@ -74,9 +74,11 @@ let providers = try await hive.auth.getLoginProviders()
 ### Guest login
 
 ```swift
-let player = try await hive.auth.loginAsGuest(deviceId: deviceId)
+let player = try await hive.auth.loginAsGuest()
 print(player.playerId, player.nickname)
 ```
+
+SDK는 첫 게스트 로그인에서 암호학적으로 안전한 무작위 설치 식별자를 Keychain에 저장합니다. 설치 식별자는 세션 저장소와 분리되며 `logout()` 후에도 유지됩니다. IdP 로그인은 이 값을 만들거나 사용하지 않습니다. 영구 저장소를 사용할 수 없으면 네트워크 요청 전에 게스트 로그인이 실패합니다. 설치 식별자를 지우면 새 게스트 계정이 생성될 수 있습니다. 이전 게스트 계정은 복구하지 못할 수 있습니다.
 
 ### Google
 
@@ -160,7 +162,7 @@ if let restored = await hive.auth.restoreSession() {
 
 ```swift
 do {
-    let player = try await hive.auth.loginAsGuest(deviceId: deviceId)
+    let player = try await hive.auth.loginAsGuest()
 } catch let HiveAxylError.banned(reason, until, permanent) {
     // show a ban notice
 } catch let HiveAxylError.maintenance(info) {

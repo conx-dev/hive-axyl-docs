@@ -58,7 +58,7 @@ const hive = createHiveAxyl({
 await hive.init();
 
 const loginProviders = await hive.auth.getLoginProviders();
-const player = await hive.auth.loginAsGuest("device-id");
+const player = await hive.auth.loginAsGuest();
 const applePlayer = await hive.auth.loginWithApple({
   clientId: "com.example.web",
 });
@@ -73,7 +73,7 @@ const applePlayer = await hive.auth.loginWithApple({
 1. **Configure** - `projectId`와 `apiKey`로 클라이언트를 만듭니다. 필요하면 `clientVersion`, `persistSession`도 설정합니다.
 2. **Initialize** - `init()` 또는 플랫폼 명명 규칙에 따른 `initialize()`를 호출합니다. SDK가 플랫폼에 연결하고 도메인 API를 준비합니다. 성공하면 클라이언트는 `ready` 상태가 됩니다.
 3. **표시할 로그인 조회** - `auth.getLoginProviders()`를 호출합니다. 서버는 프로젝트 설정과 플레이어 국가에 맞는 로그인 방식을 표시 순서대로 반환합니다. 클라이언트는 서버가 반환한 항목만 렌더링합니다.
-4. **로그인** - `auth.loginWithGoogle(idToken)` 또는 `auth.loginAsGuest(deviceId)` 같은 로그인 메서드를 호출합니다. `playerId`, `nickname` 등을 포함한 `Player`를 받습니다.
+4. **로그인** - `auth.loginWithGoogle(idToken)` 또는 `auth.loginAsGuest()` 같은 로그인 메서드를 호출합니다. `playerId`, `nickname` 등을 포함한 `Player`를 받습니다.
 5. **인증 호출 수행** - 로그인 후 SDK는 모든 요청에 플레이어 토큰을 붙이고 세션 만료 시 자동으로 갱신합니다. 로그인된 플레이어는 `auth.currentPlayer()`로 읽고, 세션 종료는 `auth.logout()`으로 처리합니다.
 
 ## 다음 단계

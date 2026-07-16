@@ -28,6 +28,7 @@ ErrorDetail {
 | `ALREADY_EXISTS` | 4 | 리소스가 이미 존재함. |
 | `PERMISSION_DENIED` | 5 | 호출자가 이 작업을 수행할 권한이 없음. |
 | `UNAUTHENTICATED` | 6 | 호출에 인증이 필요하지만 없거나 유효하지 않음. |
+| `RATE_LIMITED` | 7 | 새 게스트 계정 요청이 너무 많음. 제공된 대기 시간 후 다시 시도해야 함. |
 
 ### Gate & Connection (100-199)
 
@@ -97,6 +98,17 @@ ErrorDetail {
 | `startsAt` | `starts_at` | timestamp, optional |
 | `endsAt` | `ends_at` | timestamp, optional |
 
+### 재시도 metadata (`RATE_LIMITED`)
+
+새 게스트 생성만 제한될 수 있습니다. 기존 게스트 로그인과 IdP 로그인은 계속 처리됩니다.
+
+| Metadata key | Type | 설명 |
+| --- | --- | --- |
+| `scope` | string | 제한 범위: `project_ip`, `project`, 또는 `service`. |
+| `retry_after_seconds` | integer string | 다시 시도하기 전 최소 대기 시간. |
+
+HTTP 응답의 `Retry-After`에도 같은 대기 시간이 포함됩니다.
+
 ## Web에서 에러 처리
 
 Web SDK는 `BannedError`, `MaintenanceError`, 범용 `HiveAxylError`, `ErrorCode` enum, `errorCodeOf` / `errorDetailOf` helper를 export합니다.
@@ -110,7 +122,7 @@ import {
 } from "@hive-axyl/web-sdk";
 
 try {
-  await hive.auth.loginAsGuest("device-id");
+  await hive.auth.loginAsGuest();
 } catch (err) {
   if (err instanceof BannedError) {
     showBanScreen(err.reason, err.permanent, err.until);

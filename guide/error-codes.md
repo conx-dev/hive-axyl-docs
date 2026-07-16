@@ -28,6 +28,7 @@ ErrorDetail {
 | `ALREADY_EXISTS` | 4 | The resource already exists. |
 | `PERMISSION_DENIED` | 5 | The caller is not allowed to perform this action. |
 | `UNAUTHENTICATED` | 6 | The call requires authentication that was missing or invalid. |
+| `RATE_LIMITED` | 7 | Too many new guest accounts were requested. Retry after the supplied delay. |
 
 ### Gate & Connection (100–199)
 
@@ -97,6 +98,17 @@ Two codes come with dedicated error types on every platform, so the most common 
 | `startsAt` | `starts_at` | timestamp, optional |
 | `endsAt` | `ends_at` | timestamp, optional |
 
+### Retry metadata (`RATE_LIMITED`)
+
+New guest creation can be limited while existing guest and identity-provider logins continue normally.
+
+| Metadata key | Type | Description |
+| --- | --- | --- |
+| `scope` | string | Limit scope: `project_ip`, `project`, or `service`. |
+| `retry_after_seconds` | integer string | Minimum delay before retrying. |
+
+HTTP responses also include `Retry-After` with the same delay.
+
 ## Handling errors on Web
 
 The Web SDK exports `BannedError`, `MaintenanceError`, the generic `HiveAxylError`, the `ErrorCode` enum, and the helpers `errorCodeOf` / `errorDetailOf`:
@@ -110,7 +122,7 @@ import {
 } from "@hive-axyl/web-sdk";
 
 try {
-  await hive.auth.loginAsGuest("device-id");
+  await hive.auth.loginAsGuest();
 } catch (err) {
   if (err instanceof BannedError) {
     showBanScreen(err.reason, err.permanent, err.until);

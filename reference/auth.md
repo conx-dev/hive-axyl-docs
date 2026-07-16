@@ -8,7 +8,7 @@ Login, session restore, and the player profile.
 | [`loginWithGoogle(idToken)`](#loginwithgoogle) | `Promise<Player>` |
 | [`loginWithFacebook(accessToken)`](#loginwithfacebook) | `Promise<Player>` |
 | [`loginWithApple(options)`](#loginwithapple) | `Promise<Player>` |
-| [`loginAsGuest(deviceId)`](#loginasguest) | `Promise<Player>` |
+| [`loginAsGuest()`](#loginasguest) | `Promise<Player>` |
 | [`restoreSession()`](#restoresession) | `Promise<Player \| null>` |
 | [`getPlayer()`](#getplayer) | `Promise<Player \| null>` |
 | [`logout()`](#logout) | `Promise<void>` |
@@ -73,14 +73,14 @@ Opens a popup-based Apple sign-in flow and returns the logged-in [`Player`](#pla
 ## loginAsGuest
 
 ```ts
-loginAsGuest(deviceId: string): Promise<Player>
+loginAsGuest(): Promise<Player>
 ```
 
-| Argument | Type | Required | Description |
-| --- | --- | --- | --- |
-| `deviceId` | `string` | Yes | Stable device identifier chosen by your game; the same id logs into the same guest account |
+No arguments. On the first guest login, the SDK creates and durably stores a cryptographically random installation credential. It is independent of session storage, so `logout()` and disabling session persistence do not remove it. Identity-provider login neither creates nor uses this credential.
 
-Returns the logged-in [`Player`](#player).
+Returns the logged-in [`Player`](#player). If the SDK cannot durably store the credential, the call fails before sending a request. Clearing persistent app or site data can create a new guest account, and the previous guest account may not be recoverable.
+
+Creating a new guest can return `RATE_LIMITED`. Use `retry_after_seconds` in error metadata before retrying.
 
 ## restoreSession
 

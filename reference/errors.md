@@ -6,7 +6,7 @@ Every SDK method throws typed errors. Branch on the error class and its `code` s
 import { BannedError, HiveAxylError, MaintenanceError } from "@hive-axyl/web-sdk";
 
 try {
-  await hive.auth.loginAsGuest("device-id");
+  await hive.auth.loginAsGuest();
 } catch (err) {
   if (err instanceof BannedError) {
     // err.reason, err.permanent, err.until

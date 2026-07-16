@@ -58,7 +58,7 @@ const hive = createHiveAxyl({
 await hive.init();
 
 const loginProviders = await hive.auth.getLoginProviders();
-const player = await hive.auth.loginAsGuest("device-id");
+const player = await hive.auth.loginAsGuest();
 const applePlayer = await hive.auth.loginWithApple({
   clientId: "com.example.web",
 });
@@ -73,7 +73,7 @@ Every platform follows the same five-step lifecycle:
 1. **Configure** — create the client with `projectId` and `apiKey` (plus optional `clientVersion` and `persistSession`).
 2. **Initialize** — call `init()` (or `initialize()`, depending on platform naming). The SDK connects to the platform and prepares the domain APIs. The client is `ready` once this succeeds.
 3. **Ask what logins to show** — call `auth.getLoginProviders()`. The server returns the sign-in methods enabled for your project and the player's country, in display order. Render only what the server returns.
-4. **Log in** — call a login method such as `auth.loginWithGoogle(idToken)` or `auth.loginAsGuest(deviceId)`. You get back a `Player` with `playerId`, `nickname`, and more.
+4. **Log in** — call a login method such as `auth.loginWithGoogle(idToken)` or `auth.loginAsGuest()`. You get back a `Player` with `playerId`, `nickname`, and more.
 5. **Make authenticated calls** — after login, the SDK attaches the player token to every request and refreshes it automatically when the session expires. Use `auth.currentPlayer()` to read the signed-in player and `auth.logout()` to end the session.
 
 ## Next steps

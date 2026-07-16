@@ -68,12 +68,14 @@ const { providers, country } = await hive.auth.getLoginProviders();
 
 ### Guest login
 
-Pass a stable device identifier of your choosing:
+The SDK creates and stores a stable installation credential on the first guest login:
 
 ```ts
-const player = await hive.auth.loginAsGuest("device-id");
+const player = await hive.auth.loginAsGuest();
 console.log(player.playerId, player.nickname);
 ```
+
+The credential is separate from session storage and remains after `logout()`. Identity-provider login neither creates nor uses it. Guest login fails before sending a request if durable browser storage is unavailable. Clearing site data can create a new guest account, and the previous guest account may not be recoverable.
 
 ### Google
 
@@ -186,7 +188,7 @@ function Login() {
     return <button onClick={() => logout()}>Sign out {player.nickname}</button>;
   }
   return (
-    <button disabled={pending} onClick={() => loginAsGuest("device-id")}>
+    <button disabled={pending} onClick={() => loginAsGuest()}>
       Login as guest
     </button>
   );
@@ -231,7 +233,7 @@ Method arguments and full return-type shapes — `Player`, `Notice`, `Mail`, `Pa
 | `loginWithGoogle(idToken)` | `Promise<Player>` | Login with a Google Identity Services ID token |
 | `loginWithFacebook(accessToken)` | `Promise<Player>` | Login with a Facebook JS SDK access token |
 | `loginWithApple(options)` | `Promise<Player>` | Popup-based Apple login; `options: { clientId, timeoutMs?, popupName?, popupFeatures? }` |
-| `loginAsGuest(deviceId)` | `Promise<Player>` | Guest login with a device identifier |
+| `loginAsGuest()` | `Promise<Player>` | Guest login with an SDK-managed installation credential |
 | `restoreSession()` | `Promise<Player \| null>` | Resume from stored tokens; `null` if missing/expired |
 | `getPlayer()` | `Promise<Player \| null>` | Fetch the current player from the server (throws on error) |
 | `logout()` | `Promise<void>` | Server logout (best effort) + local session clear |
@@ -258,7 +260,7 @@ All domain errors carry a typed code — branch on classes and codes, never on m
 import { BannedError, HiveAxylError, MaintenanceError } from "@hive-axyl/web-sdk";
 
 try {
-  await hive.auth.loginAsGuest("device-id");
+  await hive.auth.loginAsGuest();
 } catch (err) {
   if (err instanceof BannedError) {
     // err.reason, err.permanent, err.until

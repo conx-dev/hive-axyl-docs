@@ -46,7 +46,7 @@ val hive = HiveAxylSdk.createHiveAxyl(
     HiveAxylConfig(
         projectId = "your-project-id",
         apiKey = "your-api-key",
-        context = applicationContext,   // enables the default persisted session storage
+        context = applicationContext,
         clientVersion = "1.0.0",
         language = Locale.getDefault().toLanguageTag(),
         debug = BuildConfig.DEBUG
@@ -75,7 +75,7 @@ hive.initialize(object : HiveAxylCallback<Unit> {
 | --- | --- | --- | --- |
 | `projectId` | `String` | Yes | 콘솔의 project identifier |
 | `apiKey` | `String` | Yes | 콘솔에서 발급한 client API key |
-| `context` | `Context?` | For persistence | 기본 persisted session storage 활성화. 없으면 SDK가 in-memory로 fallback |
+| `context` | `Context?` | Guest login | 영구 게스트 설치 저장소와 기본 세션 저장소를 활성화. 없으면 IdP 로그인은 in-memory session을 사용하고 게스트 로그인은 로컬에서 실패 |
 | `clientVersion` | `String` | No | Version gating용으로 보고됨 |
 | `language` | `String` | No | 기본값은 `Locale.getDefault().toLanguageTag()` |
 | `debug` | `Boolean` | No | SDK debug logging 활성화 |
@@ -96,8 +96,10 @@ val providers = hive.auth.getLoginProviders()
 ### Guest login
 
 ```kotlin
-val player = hive.auth.loginAsGuest(deviceId)
+val player = hive.auth.loginAsGuest()
 ```
+
+SDK는 첫 게스트 로그인에서 암호학적으로 안전한 무작위 설치 식별자를 `SharedPreferences`에 저장합니다. SDK를 만들 때 `context`를 전달하세요. 설치 식별자는 세션 저장소와 분리되며 `logout()` 후에도 유지됩니다. IdP 로그인은 이 값을 만들거나 사용하지 않습니다. 영구 저장소를 사용할 수 없으면 네트워크 요청 전에 게스트 로그인이 실패합니다. 앱 데이터를 지우면 새 게스트 계정이 생성될 수 있습니다. 이전 게스트 계정은 복구하지 못할 수 있습니다.
 
 ### Google
 
@@ -196,7 +198,7 @@ import com.hiveaxyl.sdk.HiveAxylException
 import com.hiveaxyl.sdk.MaintenanceException
 
 try {
-    hive.auth.loginAsGuest(deviceId)
+    hive.auth.loginAsGuest()
 } catch (banned: BannedException) {
     // banned.reason, banned.permanent, banned.until (Date?)
 } catch (maintenance: MaintenanceException) {

@@ -5,11 +5,13 @@ This page summarizes the client behavior that affects a Hive Axyl integration ac
 ## Login and sessions
 
 1. Call **`auth.getLoginProviders(countryOverride?)`** and render only the sign-in methods it returns. The result follows the country mapping configured in [Login Providers](/console/login-providers).
-2. Use the matching login method, such as **`auth.loginWithGoogle(idToken)`** or **`auth.loginAsGuest(deviceId)`**. The SDK returns the signed-in `Player` or a typed error such as `BannedError`.
+2. Use the matching login method, such as **`auth.loginWithGoogle(idToken)`** or **`auth.loginAsGuest()`**. The SDK returns the signed-in `Player` or a typed error such as `BannedError`.
 3. After login, the SDK applies the active player session to subsequent calls automatically.
 4. Use **`auth.currentPlayer()`** to read the cached player and **`auth.logout()`** to end the session and clear locally stored session data.
 
 When a call fails with `SESSION_EXPIRED`, the SDK refreshes the session once and retries the original call. If refresh fails, the error is returned to your code and the player must log in again.
+
+The first guest login creates a cryptographically random installation credential and stores it separately from session tokens. Logout does not remove it. Identity-provider login neither creates nor uses it. Guest login fails before sending a request if durable storage is unavailable. Clearing persistent app or site data can create a new guest account, and the previous guest account may not be recoverable.
 
 If your game uses server-side player validation, read `playerValidationToken()` immediately after login and pass the returned short-lived token to your game server. Normal SDK calls do not require you to handle this token.
 

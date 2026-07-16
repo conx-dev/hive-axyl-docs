@@ -88,9 +88,11 @@ LoginProviders result = await hive.Auth.GetLoginProvidersAsync();
 ### Guest login
 
 ```csharp
-Player player = await hive.Auth.LoginAsGuestAsync(SystemInfo.deviceUniqueIdentifier);
+Player player = await hive.Auth.LoginAsGuestAsync();
 Debug.Log($"{player.PlayerId} / {player.Nickname}");
 ```
+
+The SDK creates a cryptographically random installation credential in `PlayerPrefs` on the first guest login. It is independent of session storage and remains after `LogoutAsync()`. Identity-provider login neither creates nor uses it. Guest login fails before sending a request if durable storage is unavailable. Clearing player data can create a new guest account, and the previous guest account may not be recoverable.
 
 ### Google
 
@@ -147,7 +149,7 @@ using HiveAxyl.Sdk;
 
 try
 {
-    Player player = await hive.Auth.LoginAsGuestAsync(deviceId);
+    Player player = await hive.Auth.LoginAsGuestAsync();
 }
 catch (HiveAxylBannedException banned)
 {

@@ -5,11 +5,13 @@
 ## 로그인과 세션
 
 1. **`auth.getLoginProviders(countryOverride?)`**를 호출하고 반환된 로그인 방식만 표시합니다. 결과에는 [로그인 제공자](/ko/console/login-providers)에서 설정한 국가별 매핑이 적용됩니다.
-2. **`auth.loginWithGoogle(idToken)`**, **`auth.loginAsGuest(deviceId)`** 같은 로그인 메서드를 사용합니다. SDK는 로그인된 `Player` 또는 `BannedError` 같은 타입이 있는 에러를 반환합니다.
+2. **`auth.loginWithGoogle(idToken)`**, **`auth.loginAsGuest()`** 같은 로그인 메서드를 사용합니다. SDK는 로그인된 `Player` 또는 `BannedError` 같은 타입이 있는 에러를 반환합니다.
 3. 로그인 후 SDK는 이후 호출에 활성 플레이어 세션을 자동으로 적용합니다.
 4. **`auth.currentPlayer()`**로 캐시된 플레이어를 읽고 **`auth.logout()`**으로 세션을 종료하고 로컬 세션 데이터를 지웁니다.
 
 호출이 `SESSION_EXPIRED`로 실패하면 SDK는 세션을 한 번 갱신하고 원래 호출을 재시도합니다. 갱신도 실패하면 에러가 코드에 전달되며 플레이어가 다시 로그인해야 합니다.
+
+첫 게스트 로그인은 암호학적으로 안전한 무작위 설치 식별자를 만들고 세션 토큰과 별도로 저장합니다. 로그아웃해도 이 값은 삭제되지 않습니다. IdP 로그인은 이 값을 만들거나 사용하지 않습니다. 영구 저장소를 사용할 수 없으면 게스트 로그인은 네트워크 요청 전에 실패합니다. 앱 또는 사이트의 영구 데이터를 지우면 새 게스트 계정이 생성될 수 있습니다. 이전 게스트 계정은 복구하지 못할 수 있습니다.
 
 게임에서 서버 측 플레이어 검증을 사용한다면 로그인 직후 `playerValidationToken()`으로 수명이 짧은 토큰을 읽어 게임 서버에 전달합니다. 일반 SDK 호출에서는 이 토큰을 직접 처리할 필요가 없습니다.
 
