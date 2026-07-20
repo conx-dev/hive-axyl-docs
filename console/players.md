@@ -23,7 +23,7 @@ Go to **Player Sanctions** to register and lift bans.
 1. Search for the player (same search fields as Player Search; the default field here is **Player ID**). Each result row shows the player's current sanction status: **Normal**, **Banned until** a date, or **Permanently banned**.
 2. Click **Ban** on the player's row.
 3. In the ban dialog, enter:
-   - **Reason** — required; this text is shown to the player's client.
+   - **Reason** — required; pick one of the common reasons from the list, or select **Custom reason** and enter text (up to 255 characters). This text is shown to the player's client.
    - **Permanent** — check for a permanent ban, or
    - **Until** — the scheduled release time (must be in the future) for a temporary ban.
 4. Click **Register**.
