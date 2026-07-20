@@ -28,11 +28,9 @@ dependencyResolutionManagement {
 
 ```kotlin
 dependencies {
-    implementation("io.github.conx-dev:hive-axyl-android-sdk:<VERSION>")
+    implementation("io.github.conx-dev:hive-axyl-android-sdk:0.2.0")
 }
 ```
-
-`<VERSION>`을 배포된 SDK 버전으로 바꾸세요.
 
 ## 초기화
 
@@ -150,6 +148,8 @@ Android의 Apple login은 2단계 browser flow입니다.
 1. `startAppleLogin(clientId, returnUrl)`이 authorization URL을 반환합니다. 브라우저에서 엽니다.
 2. Apple이 deep link로 앱에 redirect합니다. 받은 `Uri`를 `completeAppleLogin(uri)`에 전달합니다.
 
+Android SDK `0.2.0` 이상을 사용하세요. SDK는 이 흐름에 필요한 PKCE 값을 만들고 callback의 일회용 code를 session으로 교환합니다. Deep link query에서 access token이나 refresh token을 직접 읽지 마세요.
+
 ```kotlin
 // Step 1: start
 val returnUrl = "${BuildConfig.APPLICATION_ID}://oauth/apple"
@@ -168,7 +168,7 @@ override fun onNewIntent(intent: Intent) {
 }
 ```
 
-Manifest에 deep-link scheme과 일치하는 intent filter를 선언하고 Apple Services ID를 `clientId`로 전달하세요.
+Manifest에 deep-link scheme과 일치하는 intent filter를 선언하고 Apple Services ID를 `clientId`로 전달하세요. Android가 앱 process를 다시 만든 뒤에도 Apple login을 완료하려면 `HiveAxylConfig`에 `context`를 전달하세요. `context`가 없으면 진행 중인 login은 memory에만 유지됩니다.
 
 ## 세션 영속성
 

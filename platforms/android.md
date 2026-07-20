@@ -28,11 +28,9 @@ Then add the SDK dependency to your app module (`app/build.gradle.kts`):
 
 ```kotlin
 dependencies {
-    implementation("io.github.conx-dev:hive-axyl-android-sdk:<VERSION>")
+    implementation("io.github.conx-dev:hive-axyl-android-sdk:0.2.0")
 }
 ```
-
-Replace `<VERSION>` with a published SDK version.
 
 ## Initialize
 
@@ -150,6 +148,8 @@ Apple login on Android is a two-step browser flow:
 1. `startAppleLogin(clientId, returnUrl)` returns an authorization URL — open it in the browser.
 2. Apple redirects back into your app via deep link — pass the received `Uri` to `completeAppleLogin(uri)`.
 
+Use Android SDK `0.2.0` or later. The SDK creates the PKCE values required for this flow and exchanges the one-time callback code for a session. Do not read access or refresh tokens from the deep-link query.
+
 ```kotlin
 // Step 1: start
 val returnUrl = "${BuildConfig.APPLICATION_ID}://oauth/apple"
@@ -168,7 +168,7 @@ override fun onNewIntent(intent: Intent) {
 }
 ```
 
-Declare a matching intent filter for the deep-link scheme in your manifest, and pass your Apple Services ID as `clientId`.
+Declare a matching intent filter for the deep-link scheme in your manifest, and pass your Apple Services ID as `clientId`. Provide `context` in `HiveAxylConfig` so an Apple login can complete after Android recreates the app process. Without `context`, the pending login exists only in memory.
 
 ## Session persistence
 
