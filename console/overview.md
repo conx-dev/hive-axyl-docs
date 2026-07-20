@@ -7,10 +7,14 @@ This page walks you through creating an account, selecting a project, and unders
 ## Sign up and log in
 
 1. Open the console and click **Sign up**.
-2. Enter your **Name**, **Email**, **Password** (minimum 8 characters), and **Confirm password**.
-3. Submit the form. You are signed in immediately and land on the console home.
+2. Enter your **Email** and click **Send verification email**.
+3. Open the verification link delivered to that address within 30 minutes.
+4. Enter your **Name**, **Password** (minimum 8 characters), and **Confirm password** on the verification page.
+5. Complete sign-up. The account is created only after the verified link is submitted.
 
 To log in later, use your email and password on the **Login** page.
+
+Existing accounts that require email reverification must request a new verification email from the login page. The verification page requires a new password and revokes previous console and MCP sessions.
 
 Your account name and email are shown in the top-right corner of the console. Click it to open the **Account** page, where you can change your password (your current password is required). Use the **Logout** button next to it to sign out.
 
@@ -31,7 +35,7 @@ Each project has its own member list. A member has one of three roles:
 | Role | What it can do |
 | --- | --- |
 | `OWNER` | Full control of the project. Only owners can grant or change the `OWNER` role, and can manage every member including other owners. |
-| `ADMIN` | Can manage the project and its members (add members, change roles, remove members), except members who hold the `OWNER` role. |
+| `ADMIN` | Can manage the project and its members (invite members, change roles, remove members), except members who hold the `OWNER` role. |
 | `VIEWER` | Can view project data but cannot manage members. |
 
 Two safety rules apply:

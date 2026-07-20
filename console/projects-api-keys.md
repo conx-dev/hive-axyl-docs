@@ -37,14 +37,17 @@ Clearing a market's field disables that identifier instead of deleting it; disab
 ## Manage members
 
 1. Go to **Projects** and click your role in the **My Role** column of the project row. The member management dialog opens.
-2. To add a member, enter the **Email** of their console account, pick a **Role** (`OWNER` / `ADMIN` / `VIEWER`), and click **Add**.
-3. To change a member's role, pick a new role from the dropdown next to their name.
-4. To remove a member, click **Remove** and confirm in the dialog.
+2. To invite a member, enter their **Email**, pick a **Role** (`OWNER` / `ADMIN` / `VIEWER`), and click **Invite**. The email may belong to an existing account or a person who has not signed up yet.
+3. The recipient opens the one-time invitation link within seven days. They sign in with the invited email or create an account from the invitation page, then explicitly accept.
+4. The requested role is granted only after acceptance. Until then, the member management dialog shows the invitation under **Pending Invitations**, where you can resend or cancel it.
+5. To change an accepted member's role, pick a new role from the dropdown next to their name.
+6. To remove an accepted member, click **Remove** and confirm in the dialog.
 
 Rules enforced by the console and the server:
 
 - Only project members with the `OWNER` or `ADMIN` role can manage members.
 - Only an `OWNER` can assign the `OWNER` role or manage members who are owners.
+- Invitation links are single-use. Resending replaces the previous link.
 - The last `OWNER` cannot be removed or demoted.
 - You cannot edit or remove your own membership.
 
