@@ -109,6 +109,14 @@ New guest creation can be limited while existing guest and identity-provider log
 
 HTTP responses also include `Retry-After` with the same delay.
 
+### Correlation metadata (`INTERNAL`)
+
+`INTERNAL` responses use the fixed message `internal error` and include a support reference.
+
+| Metadata key | Type | Description |
+| --- | --- | --- |
+| `correlation_id` | UUID string | Reference to provide when contacting support about the failure. |
+
 ## Handling errors on Web
 
 The Web SDK exports `BannedError`, `MaintenanceError`, the generic `HiveAxylError`, the `ErrorCode` enum, and the helpers `errorCodeOf` / `errorDetailOf`:

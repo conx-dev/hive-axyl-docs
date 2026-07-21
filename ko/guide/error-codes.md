@@ -109,6 +109,14 @@ ErrorDetail {
 
 HTTP 응답의 `Retry-After`에도 같은 대기 시간이 포함됩니다.
 
+### 상관관계 metadata (`INTERNAL`)
+
+`INTERNAL` 응답은 고정 메시지 `internal error`와 고객지원용 참조 ID를 포함합니다.
+
+| Metadata key | Type | 설명 |
+| --- | --- | --- |
+| `correlation_id` | UUID string | 오류 문의 시 고객지원에 전달할 참조 ID. |
+
 ## Web에서 에러 처리
 
 Web SDK는 `BannedError`, `MaintenanceError`, 범용 `HiveAxylError`, `ErrorCode` enum, `errorCodeOf` / `errorDetailOf` helper를 export합니다.
