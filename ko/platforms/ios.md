@@ -195,6 +195,8 @@ hive.auth.onBanned { reason, until, permanent in
 - `hive.payment` - product listing과 purchase verification. [결제](/ko/console/payments) 참고
 - `hive.push` - remote push target registration(APNs via your push provider setup)
 
+같은 Firebase installation에서 player를 전환할 때 새 player가 보내는 FCM registration token은 이전 player가 등록한 token과 같아야 합니다. Firebase가 token을 먼저 갱신했다면 이전 player session으로 새 token을 등록한 뒤 player를 전환하세요.
+
 모든 domain의 method argument와 return type은 [API 레퍼런스](/ko/reference/overview)에 있습니다.
 
 전체 플랫폼 흐름은 [아키텍처](/ko/guide/architecture) 가이드를 읽어보세요. 다른 플랫폼: [Web](/ko/platforms/web), [Unity](/ko/platforms/unity), [Android](/ko/platforms/android), [Godot](/ko/platforms/godot).
