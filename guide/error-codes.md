@@ -29,6 +29,7 @@ ErrorDetail {
 | `PERMISSION_DENIED` | 5 | The caller is not allowed to perform this action. |
 | `UNAUTHENTICATED` | 6 | The call requires authentication that was missing or invalid. |
 | `RATE_LIMITED` | 7 | Too many new guest accounts were requested. Retry after the supplied delay. |
+| `DEPENDENCY_UNAVAILABLE` | 10 | A required service is temporarily unavailable. Retry with backoff. |
 
 ### Gate & Connection (100–199)
 

@@ -29,6 +29,7 @@ ErrorDetail {
 | `PERMISSION_DENIED` | 5 | 호출자가 이 작업을 수행할 권한이 없음. |
 | `UNAUTHENTICATED` | 6 | 호출에 인증이 필요하지만 없거나 유효하지 않음. |
 | `RATE_LIMITED` | 7 | 새 게스트 계정 요청이 너무 많음. 제공된 대기 시간 후 다시 시도해야 함. |
+| `DEPENDENCY_UNAVAILABLE` | 10 | 필수 서비스가 일시적으로 응답하지 않음. 간격을 두고 다시 시도해야 함. |
 
 ### Gate & Connection (100-199)
 
