@@ -47,7 +47,7 @@ Members are managed from the **Projects** menu — see [Projects & API Keys](/co
 
 ## Dashboard
 
-The **Dashboard** menu shows game metrics for the selected project: daily or monthly revenue and user activity summaries broken down by market, plus a retention matrix you can filter by date range, retention basis, country, and market. Country distribution for the selected period drives the retention breakdown. Use it as your day-to-day health check after your game goes live.
+The **Dashboard** menu shows game metrics for the selected project. Daily metrics use one selected month: completed months show every day, while the current UTC month ends at today. Monthly revenue and user activity summaries keep their existing month range. Retention uses one end date and shows eight cohorts from seven days before that date through the end date, with D0-D7 split by basis, country, and market. Use it as your day-to-day health check after your game goes live.
 
 ## Menu map
 
