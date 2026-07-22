@@ -228,6 +228,8 @@ After login, the same client exposes:
 - `hive.payment` — product listing and purchase verification; see [Payments](/console/payments)
 - `hive.push` — remote push target registration
 
+When switching players on the same Firebase installation, the FCM registration token sent for the new player must match the token registered by the previous player. If Firebase rotates the token first, register the rotated token with the previous player session before switching.
+
 Method arguments and return types for every domain are in the [API Reference](/reference/overview).
 
 For the overall platform flow, read the [Architecture](/guide/architecture) guide. Other platforms: [Web](/platforms/web), [Unity](/platforms/unity), [iOS](/platforms/ios), [Godot](/platforms/godot).
